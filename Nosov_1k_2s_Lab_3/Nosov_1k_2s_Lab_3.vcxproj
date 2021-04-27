@@ -139,7 +139,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Nosov_1k_2s_Lab_3.cpp" />
+    <ClCompile Include="Complex.cpp" />
+    <ClCompile Include="Function.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Complex.h" />
+    <ClInclude Include="Function.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Test.h" />
+    <ClInclude Include="Tree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
