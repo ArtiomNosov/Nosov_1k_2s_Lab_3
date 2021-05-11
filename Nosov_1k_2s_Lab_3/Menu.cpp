@@ -25,11 +25,11 @@ void PrintMenu()
 void menuFloat()
 {
 	int choice = 0;
-	Tree<float>* tree = new Tree<float>();
-	Tree<float>* tree2 = new Tree<float>();
-	Tree<float>* tree3 = new Tree<float>();
-	Tree<float>* tree4 = new Tree<float>();
-	Tree<float>* tree5 = new Tree<float>();
+	BinaryTree<float>* tree = new BinaryTree<float>();
+	BinaryTree<float>* tree2 = new BinaryTree<float>();
+	BinaryTree<float>* tree3 = new BinaryTree<float>();
+	BinaryTree<float>* tree4 = new BinaryTree<float>();
+	BinaryTree<float>* tree5 = new BinaryTree<float>();
 	float *f = new float;
 	float* f1 = new float;
 	float * f2 = new float;
@@ -110,11 +110,11 @@ void menuFloat()
 void menuComplex()
 {
 	int choice = 0;
-	Tree<complex>* tree = new Tree<complex>();
-	Tree<complex>* tree2 = new Tree<complex>();
-	Tree<complex>* tree3 = new Tree<complex>();
-	Tree<complex>* tree4 = new Tree<complex>();
-	Tree<complex>* tree5 = new Tree<complex>();
+	BinaryTree<complex>* tree = new BinaryTree<complex>();
+	BinaryTree<complex>* tree2 = new BinaryTree<complex>();
+	BinaryTree<complex>* tree3 = new BinaryTree<complex>();
+	BinaryTree<complex>* tree4 = new BinaryTree<complex>();
+	BinaryTree<complex>* tree5 = new BinaryTree<complex>();
 	complex *f1 = new complex(0, 0);
 	complex *f2 = new complex(0, 0);
 	complex *f3 = new complex(0, 0);

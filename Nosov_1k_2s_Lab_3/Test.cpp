@@ -18,7 +18,7 @@ int TestAddFloat()
 	*b = 13.52;
 	*c = 8.53;
 	*d = 11.98;
-	Tree<float>* treeFloat = new Tree<float>();
+	BinaryTree<float>* treeFloat = new BinaryTree<float>();
 	treeFloat->Add(a);
 	treeFloat->Add(b);
 	treeFloat->Add(c);
@@ -45,7 +45,7 @@ int TestAddComplex()
 	complex *b = new complex(12.98 , 74);
 	complex *c = new complex(8.45, 7);
 	complex *d = new complex(11.54, 8);
-	Tree<complex>* treeComplex = new Tree<complex>();
+	BinaryTree<complex>* treeComplex = new BinaryTree<complex>();
 	treeComplex->Add(a);
 	treeComplex->Add(b);
 	treeComplex->Add(c);
@@ -73,8 +73,8 @@ int TestMapFloat()
 	*b = 13.52;
 	*c = 8.53;
 	*d = 11.98;
-	Tree<float>* treeFloat = new Tree<float>(); 
-	Tree<float>* treeMapFloat = new Tree<float>();
+	BinaryTree<float>* treeFloat = new BinaryTree<float>(); 
+	BinaryTree<float>* treeMapFloat = new BinaryTree<float>();
 	treeFloat->Add(a);
 	treeFloat->Add(b);
 	treeFloat->Add(c);
@@ -106,8 +106,8 @@ int TestMapComplex()
 	complex *c = new complex(8.4, 7);
 	complex *d = new complex(11.54, 8);
 	complex *one = new complex(1 ,0);
-	Tree<complex>* treeComplex = new Tree<complex>();
-	Tree<complex>* treeMapComplex = new Tree<complex>();
+	BinaryTree<complex>* treeComplex = new BinaryTree<complex>();
+	BinaryTree<complex>* treeMapComplex = new BinaryTree<complex>();
 	treeComplex->Add(a);
 	treeComplex->Add(b);
 	treeComplex->Add(c);
@@ -140,8 +140,8 @@ int TestWhereFloat()
 	*b = 13.52;
 	*c = -8.53;
 	*d = -11.98;
-	Tree<float>* treeFloat = new Tree<float>();
-	Tree<float>* treeWhereFloat = new Tree<float>();
+	BinaryTree<float>* treeFloat = new BinaryTree<float>();
+	BinaryTree<float>* treeWhereFloat = new BinaryTree<float>();
 	treeFloat->Add(a);
 	treeFloat->Add(b);
 	treeFloat->Add(c);
@@ -171,8 +171,8 @@ int TestWhereComplex()
 	complex *b = new complex(12.98, 74);
 	complex *c = new complex(-8.45, 7);
 	complex *d = new complex(-11.54, 8);
-	Tree<complex>* treeComplex = new Tree<complex>();
-	Tree<complex>* treeWhereComplex = new Tree<complex>();
+	BinaryTree<complex>* treeComplex = new BinaryTree<complex>();
+	BinaryTree<complex>* treeWhereComplex = new BinaryTree<complex>();
 	treeComplex->Add(a);
 	treeComplex->Add(b);
 	treeComplex->Add(c);
@@ -203,7 +203,7 @@ int TestSearchItemFloat()
 	*b = 13.52;
 	*c = 8.53;
 	*d = 11.98;
-	Tree<float>* treeFloat = new Tree<float>();
+	BinaryTree<float>* treeFloat = new BinaryTree<float>();
 	treeFloat->Add(a);
 	treeFloat->Add(b);
 	treeFloat->Add(c);
@@ -229,7 +229,7 @@ int TestSearchItemComplex()
 	complex *b = new complex(12.98, 74);
 	complex *c = new complex(8.45, 7);
 	complex *d = new complex(11.54, 8);
-	Tree<complex>* treeComplex = new Tree<complex>();
+	BinaryTree<complex>* treeComplex = new BinaryTree<complex>();
 	treeComplex->Add(a);
 	treeComplex->Add(b);
 	treeComplex->Add(c);
@@ -256,8 +256,8 @@ int TestSearchTreeFloat()
 	*e = *b = 13.52;
 	*c = 8.53;
 	*f = *d = 11.98;
-	Tree<float>* treeFloat1 = new Tree<float>();
-	Tree<float>* treeFloat2 = new Tree<float>();
+	BinaryTree<float>* treeFloat1 = new BinaryTree<float>();
+	BinaryTree<float>* treeFloat2 = new BinaryTree<float>();
 	treeFloat1->Add(a);
 	treeFloat1->Add(b);
 	treeFloat1->Add(c);
@@ -289,8 +289,8 @@ int TestSearchTreeComplex()
 
 	complex *e = new complex(12.98, 74);
 	complex *f = new complex(11.54, 8);
-	Tree<complex>* treeComplex1 = new Tree<complex>();
-	Tree<complex>* treeComplex2 = new Tree<complex>();
+	BinaryTree<complex>* treeComplex1 = new BinaryTree<complex>();
+	BinaryTree<complex>* treeComplex2 = new BinaryTree<complex>();
 	treeComplex1->Add(a);
 	treeComplex1->Add(b);
 	treeComplex1->Add(c);
@@ -319,8 +319,8 @@ int TestCutFloat()
 	*b = 13.52;
 	*c = 8.53;
 	*d = 11.98;
-	Tree<float>* treeFloat = new Tree<float>();
-	Tree<float>* treeCutFloat = new Tree<float>();
+	BinaryTree<float>* treeFloat = new BinaryTree<float>();
+	BinaryTree<float>* treeCutFloat = new BinaryTree<float>();
 	treeFloat->Add(a);
 	treeFloat->Add(b);
 	treeFloat->Add(c);
@@ -349,8 +349,8 @@ int TestCutComplex()
 	complex *b = new complex(12.98, 74);
 	complex *c = new complex(8.45, 7);
 	complex *d = new complex(11.54, 8);
-	Tree<complex>* treeComplex = new Tree<complex>();
-	Tree<complex>* treeCutComplex = new Tree<complex>();
+	BinaryTree<complex>* treeComplex = new BinaryTree<complex>();
+	BinaryTree<complex>* treeCutComplex = new BinaryTree<complex>();
 	treeComplex->Add(a);
 	treeComplex->Add(b);
 	treeComplex->Add(c);
