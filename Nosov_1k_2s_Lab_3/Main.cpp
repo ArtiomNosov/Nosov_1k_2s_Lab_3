@@ -6,6 +6,12 @@
 *	Email: artiom-nj@mail.ru
 */
 
+// TODO: Прошить дерево.
+// TODO: Балансировка дерева.
+// TODO: Атомарные тесты.
+// TODO: Тесты на больших данных и графики зависимости.
+// TODO: Очередь с приоритетами на основе дерева.
+
 #include <iostream>
 #include <locale>
 #include "Tree.h"

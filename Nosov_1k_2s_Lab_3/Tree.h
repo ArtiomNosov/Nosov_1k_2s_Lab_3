@@ -15,6 +15,7 @@
 
 using namespace std;
 
+//	Бинарное дерево
 template <typename T>
 class Tree {
 private:
