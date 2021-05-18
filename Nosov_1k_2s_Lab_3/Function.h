@@ -19,6 +19,7 @@ bool BigZero(float* value);
 bool BigZero(complex* value);
 float* plusOne(float* value);
 complex* plusOne(complex* value);
+int* plusOne(int* value);
 
 #endif
 

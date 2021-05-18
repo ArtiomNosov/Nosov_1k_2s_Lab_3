@@ -50,5 +50,8 @@
     <ClInclude Include="BinaryTree.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="ConstantsBoostTest.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

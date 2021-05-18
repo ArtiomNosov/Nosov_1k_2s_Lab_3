@@ -49,3 +49,10 @@ float* plusOne(float* value)
 	*result = *value + 1;
 	return result;
 }
+
+int* plusOne(int* value)
+{
+	int* result = new int;
+	*result = *value + 1;
+	return result;
+}
