@@ -14,7 +14,7 @@
 
 #include <iostream>
 #include <locale>
-#include "Tree.h"
+#include "BinaryTree.h"
 #include "Test.h"
 #include "Complex.h"
 #include "Function.h"

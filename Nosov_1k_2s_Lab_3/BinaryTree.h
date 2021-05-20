@@ -99,8 +99,8 @@ template<typename T>
 void BinaryTree<T>::FreeMem(Node * tree)
 {
 	if (tree != NULL) {
-		FreeMem(tree->left);
-		FreeMem(tree->right);
+		FreeMem(tree->Left);
+		FreeMem(tree->Right);
 		delete tree->Value;
 	}
 }

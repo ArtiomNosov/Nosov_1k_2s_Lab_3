@@ -9,7 +9,7 @@
 #ifndef _TEST_H_
 #define _TEST_H_
 
-#include "Tree.h"
+#include "BinaryTree.h"
 #include <iostream>
 #include "Complex.h"
 #include "Function.h"

@@ -11,7 +11,7 @@
 
 
 #include <iostream>
-#include "Tree.h"
+#include "BinaryTree.h"
 #include "Test.h"
 
 void menuFloat();

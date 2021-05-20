@@ -156,7 +156,9 @@
     <ClCompile Include="BoostTest.cpp" />
     <ClCompile Include="Complex.cpp" />
     <ClCompile Include="Function.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Main.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='BoostTest|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
