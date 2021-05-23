@@ -1,3 +1,11 @@
+/*
+*	BinaryHeap.h
+*	Version 0.1
+*	Author: Nosov Artiom
+*	Company:
+*	Email: artiom-nj@mail.ru
+*/
+
 #include <list>
 using namespace std;
 
@@ -7,31 +15,10 @@ class BinaryHeap
 {
 private:
     list<T> List;
-public:
-    // Конструктор для построения из list
-    BinaryHeap<T>(list<T> list)
-    {
-        List = list;
-        for (int i = heapSize() / 2; i >= 0; i--)
-        {
-            heapify(i);
-        }
-    }
-
-    BinaryHeap<T>(T array[], long sizeArray)
-    {
-        for (int i = 0; i < sizeArray; i++)
-        {
-            List.push_back(array[i]);
-        }
-        for (int i = heapSize() / 2; i >= 0; i--)
-        {
-            heapify(i);
-        }
-    }
 
     T getListItem(long index)
     {
+        assert(index < heapSize());
         auto iterator = List.begin();
         for (int i = 0; i < index; i++)
             iterator++;
@@ -44,28 +31,6 @@ public:
         for (int i = 0; i < index; i++)
             iterator++;
         return iterator;
-    }
-
-    long heapSize()
-    {
-        return List.size();
-    }
-
-    void add(T value)
-    {
-        List.push_back(value);
-        int i = heapSize - 1;
-        int parent = (i - 1) / 2;
-
-        while (i > 0 && getListItem(parent) < getListItem(i))
-        {
-            T temp = getListItem(i);
-            getListItem(i) = getListItem(parent);
-            getListItem(parent) = temp;
-
-            i = parent;
-            parent = (i - 1) / 2;
-        }
     }
 
     void heapify(long i)
@@ -102,6 +67,51 @@ public:
         }
     }
 
+public:
+    // Конструктор для построения из list
+    BinaryHeap<T>(list<T> list)
+    {
+        List = list;
+        for (int i = heapSize() / 2; i >= 0; i--)
+        {
+            heapify(i);
+        }
+    }
+
+    BinaryHeap<T>(T array[], long sizeArray)
+    {
+        for (int i = 0; i < sizeArray; i++)
+        {
+            List.push_back(array[i]);
+        }
+        for (int i = heapSize() / 2; i >= 0; i--)
+        {
+            heapify(i);
+        }
+    }
+
+    long heapSize()
+    {
+        return List.size();
+    }
+
+    void add(T value)
+    {
+        List.push_back(value);
+        int i = heapSize() - 1;
+        int parent = (i - 1) / 2;
+
+        while (i > 0 && getListItem(parent) < getListItem(i))
+        {
+            T temp = getListItem(i);
+            *(getListIterator(i)) = getListItem(parent);
+            *(getListIterator(parent)) = temp;
+
+            i = parent;
+            parent = (i - 1) / 2;
+        }
+    }
+
     T getMax()
     {
         T result = *( List.begin() ) ;
@@ -117,13 +127,14 @@ public:
         return List.front();
     }
 
-    void buildHeap(T sourceArray[], long sourceArraySize)
+    void reBuildHeap(T sourceArray[], long sourceArraySize)
     {
+        List.clear();
         for (long i = 0; i < sourceArraySize; i++)
         {
             List.push_back(sourceArray[i]);
         }
-        for (int i = heapSize / 2; i >= 0; i--)
+        for (int i = heapSize() / 2; i >= 0; i--)
         {
             heapify(i);
         }
@@ -131,8 +142,8 @@ public:
 
     void heapSort(T array[], long sizeArray)
     {
-        buildHeap(array, sizeArray);
-        for (int i = array.Length - 1; i >= 0; i--)
+        reBuildHeap(array, sizeArray);
+        for (int i = sizeArray - 1; i >= 0; i--)
         {
             array[i] = getMax();
             heapify(0);

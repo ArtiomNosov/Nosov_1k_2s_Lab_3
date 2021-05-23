@@ -310,3 +310,46 @@ BOOST_AUTO_TEST_CASE(BinaryHeapPop)
 	BOOST_CHECK(hbt->findMax() == 1500);
 	delete hbt;
 }
+
+BOOST_AUTO_TEST_CASE(BinaryHeapSize)
+{
+	BinaryHeap<int>* hbt = new BinaryHeap<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	BOOST_CHECK(hbt->heapSize() == 11);
+	delete hbt;
+}
+
+BOOST_AUTO_TEST_CASE(BinaryHeapAdd)
+{
+	BinaryHeap<int>* hbt = new BinaryHeap<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	hbt->add(505);
+	BOOST_CHECK(hbt->heapSize() == 12);
+	hbt->add(5051);
+	BOOST_CHECK(hbt->findMax() == 5051);
+	BOOST_CHECK(hbt->heapSize() == 13);
+	delete hbt;
+}
+
+BOOST_AUTO_TEST_CASE(BinaryHeapReBuildHeap)
+{
+	BinaryHeap<int>* hbt = new BinaryHeap<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	hbt->add(5051);
+	BOOST_CHECK(hbt->findMax() == 5051);
+	BOOST_CHECK(hbt->heapSize() == 12);
+	hbt->reBuildHeap(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	BOOST_CHECK(hbt->findMax() == 5050);
+	BOOST_CHECK(hbt->heapSize() == 11);
+	delete hbt;
+}
+
+BOOST_AUTO_TEST_CASE(BinaryHeapHeapSort)
+{
+	BinaryHeap<int>* hbt = new BinaryHeap<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	int* arrayInt = new int[SizeConstArrayIntHeap];
+	for (int i = 0; i < SizeConstArrayIntHeap; i++)
+		arrayInt[i] = ConstArrayIntHeap[i];
+	hbt->heapSort(arrayInt, SizeConstArrayIntHeap);
+	BOOST_CHECK(arrayInt[0] == 2);
+	BOOST_CHECK(arrayInt[SizeConstArrayIntHeap - 1] == 5050);
+	delete[] arrayInt;
+	delete hbt;
+}

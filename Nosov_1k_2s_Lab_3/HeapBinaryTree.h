@@ -1,75 +1,154 @@
+/*
+*	HeapBinaryTree.h
+*	Version 0.1
+*	Author: Nosov Artiom
+*	Company:
+*	Email: artiom-nj@mail.ru
+*/
+
 #include "BinaryTree.h"
 
+#include <list>
+using namespace std;
+
+// TODO: Сделать задаеин нулевого элемента для любого typename while (i > 0 && list[parent] < getListItem(i))
 template <typename T>
-class HeapBinaryTree : BinaryTree<T>
+class BinaryHeap
 {
 private:
-    long Size = 1;
+    list<T> List;
+
+    T getListItem(long index)
+    {
+        assert(index < heapSize());
+        auto iterator = List.begin();
+        for (int i = 0; i < index; i++)
+            iterator++;
+        return *iterator;
+    }
+
+    const list<int>::iterator getListIterator(long index)
+    {
+        auto iterator = List.begin();
+        for (int i = 0; i < index; i++)
+            iterator++;
+        return iterator;
+    }
+
+    void heapify(long i)
+    {
+        long leftChild;
+        long rightChild;
+        long largestChild;
+
+        for (; ; )
+        {
+            leftChild = 2 * i + 1;
+            rightChild = 2 * i + 2;
+            largestChild = i;
+
+            if (leftChild < heapSize() && getListItem(leftChild) > getListItem(largestChild))
+            {
+                largestChild = leftChild;
+            }
+
+            if (rightChild < heapSize() && getListItem(rightChild) > getListItem(largestChild))
+            {
+                largestChild = rightChild;
+            }
+
+            if (largestChild == i)
+            {
+                break;
+            }
+
+            T temp = getListItem(i);
+            *(getListIterator(i)) = getListItem(largestChild);
+            *(getListIterator(largestChild)) = temp;
+            i = largestChild;
+        }
+    }
+
 public:
-    void push(int x) {
-        Size++; // Увеличиваем размер кучи на единицу
-        tree.push_back(x);
-        sift_up(Size - 1);
-    }
-
-    int max() {
-        if (Size > 1) {
-            return tree[1];
-        }
-        else {
-            //Ошибка: попытка найти максимум в пустой куче
+    // Конструктор для построения из list
+    BinaryHeap<T>(list<T> list)
+    {
+        List = list;
+        for (int i = heapSize() / 2; i >= 0; i--)
+        {
+            heapify(i);
         }
     }
 
-    void pop() {
-        if (Size > 1) {
-            Size--; // Уменьшаем размер кучи на единицу
-            tree[1] = tree.back();
-            tree.pop_back();
-            sift_down(1);
+    BinaryHeap<T>(T array[], long sizeArray)
+    {
+        for (int i = 0; i < sizeArray; i++)
+        {
+            List.push_back(array[i]);
         }
-        else {
-            //Ошибка: попытка извлечь максимум из пустой кучи
-        }
-    }
-
-    //Проталкивание вверх.
-    void sift_up(int v) {
-        if (v == 1) {
-            return;     //Больше некуда подниматься.
-        }
-
-        if (tree[v / 2] < tree[v]) {
-            swap(tree[v], tree[v / 2]);
-            sift_up(v / 2);
+        for (int i = heapSize() / 2; i >= 0; i--)
+        {
+            heapify(i);
         }
     }
 
-    //Проталкивание вниз
-    void sift_down(int v) {
-        if (v * 2 >= Size) {
-            return;     //Больше некуда спускаться.
-        }
+    long heapSize()
+    {
+        return List.size();
+    }
 
-        //Индекс большего дочернего элемента
-        int max_idx;
-        if (v * 2 + 1 == Size) {     //Если можно спуститься только влево
-            max_idx = v * 2;
-        }
-        else if (tree[v * 2] >= tree[v * 2 + 1]) {
-            max_idx = v * 2;
-        }
-        else {
-            max_idx = v * 2 + 1;
-        }
+    void add(T value)
+    {
+        List.push_back(value);
+        int i = heapSize() - 1;
+        int parent = (i - 1) / 2;
 
-        if (tree[v] < tree[max_idx]) {
-            swap(tree[v], tree[max_idx]);
-            sift_down(max_idx);
+        while (i > 0 && getListItem(parent) < getListItem(i))
+        {
+            T temp = getListItem(i);
+            *(getListIterator(i)) = getListItem(parent);
+            *(getListIterator(parent)) = temp;
+
+            i = parent;
+            parent = (i - 1) / 2;
         }
     }
 
-    bool empty() {
-        return tree.size() == 1;
+    T getMax()
+    {
+        T result = *(List.begin());
+        List.erase(List.begin());
+        List.emplace_front(*(--List.end()));
+        List.erase(--List.end());
+        heapify(0);
+        return result;
+    }
+
+    T findMax()
+    {
+        return List.front();
+    }
+
+    void reBuildHeap(T sourceArray[], long sourceArraySize)
+    {
+        List.clear();
+        for (long i = 0; i < sourceArraySize; i++)
+        {
+            List.push_back(sourceArray[i]);
+        }
+        for (int i = heapSize() / 2; i >= 0; i--)
+        {
+            heapify(i);
+        }
+    }
+
+    void heapSort(T array[], long sizeArray)
+    {
+        reBuildHeap(array, sizeArray);
+        for (int i = sizeArray - 1; i >= 0; i--)
+        {
+            array[i] = getMax();
+            heapify(0);
+        }
     }
 };
