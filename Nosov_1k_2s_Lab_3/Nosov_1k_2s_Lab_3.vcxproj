@@ -153,7 +153,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BoostTest.cpp" />
+    <ClCompile Include="BoostTest.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Complex.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="Main.cpp">
@@ -163,10 +165,13 @@
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BinaryHeap.h" />
     <ClInclude Include="Complex.h" />
     <ClInclude Include="ConstantsBoostTest.h" />
     <ClInclude Include="Function.h" />
+    <ClInclude Include="HeapBinaryTree.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="TBinaryTree.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="BinaryTree.h" />
   </ItemGroup>

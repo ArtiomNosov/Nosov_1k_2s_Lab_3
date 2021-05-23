@@ -21,12 +21,21 @@
 #include "Menu.h"
 #include <Windows.h>
 
+// Мои include
+#include "BinaryHeap.h"
+#include "ConstantsBoostTest.h"
+
 int main()
 {
-	HANDLE hwnds = GetStdHandle(STD_OUTPUT_HANDLE);
+	/*HANDLE hwnds = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hwnds, 15);
 	setlocale(LC_ALL , "RU");
-	menu();
+	menu();*/
+	BinaryHeap<int>* hbt = new BinaryHeap<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	cout << hbt->getMax() << endl;
+	cout << hbt->getMax() << endl;
+	cout << hbt->getMax() << endl;
+	delete hbt;
 	
 	
 	

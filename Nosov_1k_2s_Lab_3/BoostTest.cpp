@@ -10,6 +10,7 @@ using namespace std;
 #include "BinaryTree.h"
 #include "Function.h"
 #include "ConstantsBoostTest.h"
+#include "BinaryHeap.h"
 
  // Тестирование BinaryTree.h - class BinaryTree
 
@@ -260,4 +261,52 @@ BOOST_AUTO_TEST_CASE(TestCutComplex)
 	// Извлечем поддерево с 12.98+74i 
 	// Элементы поддерева: 
 	BOOST_CHECK(treeComplex->SearchTree(treeComplex, treeCutComplex));
+}
+
+// Тесты для HeapBinaryTree
+/*
+	Дерево для тестов 
+	Элементы передаваемые в дерево 
+	2, 5, 100, 1500, 5050, 13, 14, 27, 70, 150, 40
+	Как они должны расположится в куче-дереве
+				   5050
+			   /	     \
+		     150 	     1500
+		    /    \      /    \
+		  70    100   14     40
+		  / \  /  \  /  \   /   \
+		  2 5  n  27 n  13 n     n
+    HeapBinaryTreePush
+	Добавим 15
+				  5050
+			   /	     \
+			 150 	     1500
+			/    \      /    \
+		  70    100   14     40
+		  / \  /  \  /  \   /   \
+		  2 5  n  27 n  13 n    n
+*/
+ // * Добавить элемент (Сложность: O(logN))
+BOOST_AUTO_TEST_CASE(BinaryHeapPush)
+{
+	BinaryHeap<int>* hbt = new BinaryHeap<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	BOOST_CHECK(hbt->getMax() == 5050);
+	BOOST_CHECK(hbt->getMax() == 1500);
+	BOOST_CHECK(hbt->getMax() == 150);
+	delete hbt;
+}
+ // * Найти максимум (Сложность: O(1))
+BOOST_AUTO_TEST_CASE(BinaryHeapMax)
+{
+	BinaryHeap<int>* hbt = new BinaryHeap<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	BOOST_CHECK(hbt->findMax() == 5050);
+	delete hbt;
+}
+ // * Извлечь максимальный элемент (Сложность: O(logN))
+BOOST_AUTO_TEST_CASE(BinaryHeapPop)
+{
+	BinaryHeap<int>* hbt = new BinaryHeap<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	BOOST_CHECK(hbt->getMax() == 5050);
+	BOOST_CHECK(hbt->findMax() == 1500);
+	delete hbt;
 }
