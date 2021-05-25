@@ -1,14 +1,3 @@
-/*
-*	Tree.h
-*	Version 0.1
-*	Author: Nosov Artiom
-*	Company:
-*	Email: artiom-nj@mail.ru
-*/
-
-#ifndef _TREE_H_
-#define _TREE_H_
-
 #include <iostream>
 #include "Function.h"
 #include <queue>
@@ -17,40 +6,40 @@ using namespace std;
 
 //	Бинарное дерево
 template <typename T>
-class BinaryTree {
+class BinaryTreeVal {
 private:
 	struct Node { // узел
 		Node* Left; // указатель на левый потомок
 		Node* Right; // на правый потомок
 		Node* Parent;
-		T* Value; // указатель на знаения (float || complex)
+		T Value; // указатель на знаения (float || complex)
 	};
-	BinaryTree<T>* RoundForMap(T* (*Fun)(T*), Node* Original, BinaryTree<T>* Result); // Возвращает новую колекцию с использованием на них функцией
-	BinaryTree<T>* RoundForMap(T* (& Fun)(BinaryTree<T>*), BinaryTree<T>* Original, Node* OriginalNode, BinaryTree<T>* Result);
-	BinaryTree<T>* RoundForWhere(bool (*Fun)(T*), Node* Original, BinaryTree<T>* Result); 
-	BinaryTree<T>* RoundForWhere(void (*Fun)(Node*), Node* Original, BinaryTree<T>* Result);
-	bool RoundForSearch(Node* tree, Node* value , bool); // обход для поиска 
+	BinaryTreeVal<T>* RoundForMap(T (*Fun)(T), Node* Original, BinaryTreeVal<T>* Result); // Возвращает новую колекцию с использованием на них функцией
+	BinaryTreeVal<T>* RoundForMap(T (&Fun)(BinaryTreeVal<T>*), BinaryTreeVal<T>* Original, Node* OriginalNode, BinaryTreeVal<T>* Result);
+	BinaryTreeVal<T>* RoundForWhere(bool (*Fun)(T), Node* Original, BinaryTreeVal<T>* Result);
+	BinaryTreeVal<T>* RoundForWhere(void (*Fun)(Node*), Node* Original, BinaryTreeVal<T>* Result);
+	bool RoundForSearch(Node* tree, Node* value, bool); // обход для поиска 
 	bool RoundForSearchTree(Node* root1, Node* root2, bool result);
 	void TreePrintKPL(Node* tree); // обход KPL
 	void TreePrintLKP(Node* tree); // обход ЛКп
-	void FreeMem(Node *tree); // Очистка памяти
-	string ToStringKPL(Node* tree , string result);
-	string ToStringLKP(Node* tree , string result);
-	BinaryTree<T>* RoundForCut(Node* tree, bool find, T* cutElem, BinaryTree<T>* Result);
+	void FreeMem(Node* tree); // Очистка памяти
+	string ToStringKPL(Node* tree, string result);
+	string ToStringLKP(Node* tree, string result);
+	BinaryTreeVal<T>* RoundForCut(Node* tree, bool find, T cutElem, BinaryTreeVal<T>* Result);
 	void heapifyAllInner(Node* Original);
 	Node* Root; // корень дерева
 
 public:
 	Node* GetRoot() { return Root; } // геттер для корня
-	void PrintTree(BinaryTree<T>* Root); // вывод дерева
-	BinaryTree<T>(); // конструктор 
-	~BinaryTree<T>(); // удаление дерева
-	void Add(T* Value) { AddNode(Value, Root, nullptr); } // добавления
-	Node* AddAndGetPointer(T* Value) 
-	{ 
-		return AddNode(Value, Root, nullptr); 
-	} 
-	Node* AddNode(T* Value, Node*& New_Node, Node * parent)
+	void PrintTree(BinaryTreeVal<T>* Root); // вывод дерева
+	BinaryTreeVal<T>(); // конструктор 
+	~BinaryTreeVal<T>() ; // удаление дерева
+	void Add(T Value) { AddNode(Value, Root, nullptr); } // добавления
+	Node* AddAndGetPointer(T Value)
+	{
+		return AddNode(Value, Root, nullptr);
+	}
+	Node* AddNode(T Value, Node* New_Node, Node* parent)
 	{
 		if (New_Node == nullptr)
 		{
@@ -61,26 +50,26 @@ public:
 			if (Root == nullptr)
 				Root = New_Node;
 		}
-		else if (*Value < *(New_Node->Value))
+		else if (Value < (New_Node->Value))
 		{
 			New_Node->Left = AddNode(Value, New_Node->Left, New_Node);
 		}
-		else if (*Value >= *(New_Node->Value))
+		else if (Value >= (New_Node->Value))
 		{
 			New_Node->Right = AddNode(Value, New_Node->Right, New_Node);
 		}
 		return New_Node;
 	}
 
-	BinaryTree<T>* Map(T* (*Fun)(T*)); // Должна продействовать функцией на каждый элемент дерева
-	BinaryTree<T>* Map(BinaryTree<T>* (& Fun)(BinaryTree<T>*)); // Должна продействовать функцией на каждый элемент дерева
-	BinaryTree<T>* Where(bool (*Fun)(T*));
-	void Where(void (*Fun)(Node *)); // Должна верунуть дерево которые прошли фильтрацию
-	bool SearchItem(Node *tree,T* Value); // поиск элемента на вхождение
-	bool SearchTree(BinaryTree<T>* tree1, BinaryTree<T>* tree2); // поиск поддерева на вхождение
-	BinaryTree<T>* Cut(BinaryTree<T>* tree, T* cutElem); // извлечение
+	// Должна продействовать функцией на каждый элемент дерева
+	BinaryTreeVal<T>* Map(T(*Fun)(T)); // Должна продействовать функцией на каждый элемент дерева
+	BinaryTreeVal<T>* Where(bool (*Fun)(T));
+	// void Where(void (*Fun)(Node*)); // Должна верунуть дерево которые прошли фильтрацию
+	bool SearchItem(Node* tree, T Value); // поиск элемента на вхождение
+	bool SearchTree(BinaryTreeVal<T>* tree1, BinaryTreeVal<T>* tree2); // поиск поддерева на вхождение
+	BinaryTreeVal<T>* Cut(BinaryTreeVal<T>* tree, T cutElem); // извлечение
 	string ToString(); // переводит в строку
-	void heapifyAll(Node *node)
+	void heapifyAll(Node* node)
 	{
 		heapifyAllInner(node);
 	}
@@ -91,46 +80,45 @@ public:
 };
 
 template<typename T>
-void BinaryTree<T>::TreePrintKPL(Node * tree)
+void BinaryTreeVal<T>::TreePrintKPL(Node* tree)
 {
 	if (tree != nullptr)
 	{
-		cout << ToStrings(*(tree->Value)) << "\t";
+		cout << ToStrings((tree->Value)) << "\t";
 		TreePrintKPL(tree->Right);
 		TreePrintKPL(tree->Left);
 	}
 };
 
 template<typename T>
-void BinaryTree<T>::TreePrintLKP(Node * tree)
+void BinaryTreeVal<T>::TreePrintLKP(Node* tree)
 {
 	if (tree != nullptr)
 	{
 		cout << " < ";
 		TreePrintLKP(tree->Left);
 		cout << " > ";
-		cout << " [ " <<ToStrings(*(tree->Value)) << " ] ( ";
+		cout << " [ " << ToStrings((tree->Value)) << " ] ( ";
 		TreePrintLKP(tree->Right);
 		cout << " ) ";
 	}
-	
+
 };
 
 template<typename T>
-void BinaryTree<T>::FreeMem(Node * tree)
+void BinaryTreeVal<T>::FreeMem(Node* tree)
 {
 	if (tree != NULL) {
 		FreeMem(tree->Left);
 		FreeMem(tree->Right);
-		delete tree->Value;
 	}
 }
 
 template<typename T>
-string BinaryTree<T>::ToStringKPL(Node * tree, string result)
+string BinaryTreeVal<T>::ToStringKPL(Node* tree, string result)
 {
 	if (tree != nullptr) {
-		result += "<" + ToStrings(*(tree->Value)) + "> ( ";
+		result += "<" + ToStrings((tree->Value)) + "> ( ";
 		result = ToStringKPL(tree->Right, result);
 		result += ") [ ";
 		result = ToStringKPL(tree->Left, result);
@@ -140,70 +128,70 @@ string BinaryTree<T>::ToStringKPL(Node * tree, string result)
 }
 
 template<typename T>
-string BinaryTree<T>::ToStringLKP(Node * tree, string result)
+string BinaryTreeVal<T>::ToStringLKP(Node* tree, string result)
 {
-	if (tree != nullptr) 
+	if (tree != nullptr)
 	{
 		result += " ( ";
 		result = ToStringLKP(tree->Left, result);
-		result += " ) < " + ToStrings(*(tree->Value)) + " > [ ";
+		result += " ) < " + ToStrings((tree->Value)) + " > [ ";
 		result = ToStringLKP(tree->Right, result);
 		result += " ] ";
-		
+
 	}
 	return result;
 }
 
 template<typename T>
-void BinaryTree<T>::PrintTree(BinaryTree<T>* tree)
+void BinaryTreeVal<T>::PrintTree(BinaryTreeVal<T>* tree)
 {
 	cout << tree->ToString() << endl;
 };
 
 template<typename T>
-BinaryTree<T>::~BinaryTree<T>()
+BinaryTreeVal<T>::~BinaryTreeVal<T>()
 {
 	FreeMem(Root);
 }
 
 template<typename T>
-BinaryTree<T>* BinaryTree<T>::Map(T* (*Fun)(T*))
+BinaryTreeVal<T>* BinaryTreeVal<T>::Map(T (*Fun)(T))
 {
-	BinaryTree<T> *Result = new BinaryTree<T>();
+	BinaryTreeVal<T>* Result = new BinaryTreeVal<T>();
 	Result = RoundForMap(Fun, Root, Result);
 	return Result;
 }
 
 template<typename T>
-BinaryTree<T>* BinaryTree<T>::Where(bool(*Fun)(T*))
+BinaryTreeVal<T>* BinaryTreeVal<T>::Where(bool(*Fun)(T))
 {
-	BinaryTree<T>* Result = new BinaryTree<T>();
-	RoundForWhere(Fun, Root, Result); 
+	BinaryTreeVal<T>* Result = new BinaryTreeVal<T>();
+	RoundForWhere(Fun, Root, Result);
 	return Result;
 }
 
-template<typename T>
-void BinaryTree<T>::Where(void (*Fun)(Node*))
-{
-	//BinaryTree<T>* Result;
-	//RoundForWhere(Fun, GetRoot(), Result);
-	//delete Result;
-}
+//template<typename T>
+//void BinaryTree<T>::Where(void (*Fun)(Node*))
+//{
+//	//BinaryTree<T>* Result;
+//	//RoundForWhere(Fun, GetRoot(), Result);
+//	//delete Result;
+//}
 
 template<typename T>
-bool BinaryTree<T>::SearchItem(Node* tree, T* Value) 
+bool BinaryTreeVal<T>::SearchItem(Node* tree, T Value)
 {
 	Node* New_node = new Node;
 	New_node->Value = Value;
 	New_node->Left = nullptr;
 	New_node->Right = nullptr;
 	bool result = false;
-	result =  RoundForSearch(tree, New_node , result);
+	result = RoundForSearch(tree, New_node, result);
 	return result;
 }
 
 template<typename T>
-bool BinaryTree<T>::SearchTree(BinaryTree<T>* tree1, BinaryTree<T>* tree2) // переделеать
+bool BinaryTreeVal<T>::SearchTree(BinaryTreeVal<T>* tree1, BinaryTreeVal<T>* tree2) // переделеать
 {
 	bool result = false;
 	result = RoundForSearchTree(tree1->GetRoot(), tree2->GetRoot(), result);
@@ -211,16 +199,16 @@ bool BinaryTree<T>::SearchTree(BinaryTree<T>* tree1, BinaryTree<T>* tree2) // пе
 }
 
 template<typename T>
-BinaryTree<T>* BinaryTree<T>::Cut(BinaryTree<T>* tree, T* cutElem)
+BinaryTreeVal<T>* BinaryTreeVal<T>::Cut(BinaryTreeVal<T>* tree, T cutElem)
 {
-	BinaryTree<T>* result = new BinaryTree<T>();
+	BinaryTreeVal<T>* result = new BinaryTree<T>();
 	bool find = false;
 	result = RoundForCut(tree->GetRoot(), find, cutElem, result);
 	return result;
 }
 
 template<typename T>
-string BinaryTree<T>::ToString()
+string BinaryTreeVal<T>::ToString()
 {
 	int choise;
 	cout << "Выбирете обход для вывода дерева в строке\n() - левый \t<>-корень \t[] - правый:\n1. ЛКП\n2. КПЛ\n";
@@ -229,11 +217,11 @@ string BinaryTree<T>::ToString()
 	switch (choise)
 	{
 	case 1:
-		result = ToStringLKP(Root , result);
+		result = ToStringLKP(Root, result);
 		return result;
 		break;
 	case 2:
-		result = ToStringKPL(Root , result);
+		result = ToStringKPL(Root, result);
 		return result;
 		break;
 	default:
@@ -241,11 +229,11 @@ string BinaryTree<T>::ToString()
 		return 0;
 		break;
 	}
-	
+
 }
 
 template<typename T>
-BinaryTree<T>* BinaryTree<T>::RoundForCut(Node* tree, bool find, T* cutElem, BinaryTree<T>* Result)
+BinaryTreeVal<T>* BinaryTreeVal<T>::RoundForCut(Node* tree, bool find, T cutElem, BinaryTreeVal<T>* Result)
 // find - был ли найден элемент , Result - извлеченное поддерево
 {
 	if (tree != nullptr)
@@ -262,7 +250,7 @@ BinaryTree<T>* BinaryTree<T>::RoundForCut(Node* tree, bool find, T* cutElem, Bin
 }
 
 template<typename T>
-BinaryTree<T>* BinaryTree<T>::RoundForWhere(bool (*Fun)(T*), Node* Original, BinaryTree<T>* Result)
+BinaryTreeVal<T>* BinaryTreeVal<T>::RoundForWhere(bool (*Fun)(T), Node* Original, BinaryTreeVal<T>* Result)
 {
 	if (Original != nullptr) {
 		if (Fun(Original->Value))
@@ -274,7 +262,7 @@ BinaryTree<T>* BinaryTree<T>::RoundForWhere(bool (*Fun)(T*), Node* Original, Bin
 }
 
 template<typename T>
-BinaryTree<T>* BinaryTree<T>::RoundForWhere(void (*Fun)(Node*), Node* Original, BinaryTree<T>* Result)
+BinaryTreeVal<T>* BinaryTreeVal<T>::RoundForWhere(void (*Fun)(Node*), Node* Original, BinaryTreeVal<T>* Result)
 {
 	if (Original != nullptr) {
 		if (Fun(Original))
@@ -286,7 +274,7 @@ BinaryTree<T>* BinaryTree<T>::RoundForWhere(void (*Fun)(Node*), Node* Original, 
 }
 
 template<typename T>
-void BinaryTree<T>::heapifyAllInner(Node* node)
+void BinaryTreeVal<T>::heapifyAllInner(Node* node)
 {
 	auto tree = node;
 	if (tree != nullptr) {
@@ -331,13 +319,13 @@ void BinaryTree<T>::heapifyAllInner(Node* node)
 }
 
 template<typename T>
-BinaryTree<T>::BinaryTree()
+BinaryTreeVal<T>::BinaryTreeVal()
 {
 	Root = nullptr;
 }
 
 template<typename T>
-BinaryTree<T>* BinaryTree<T>::RoundForMap(T* (*Fun)(T*), Node* Original, BinaryTree<T>* Result)
+BinaryTreeVal<T>* BinaryTreeVal<T>::RoundForMap(T (*Fun)(T), Node* Original, BinaryTreeVal<T>* Result)
 {
 	if (Original != nullptr) {
 		Result->Add(Fun(Original->Value));
@@ -348,11 +336,11 @@ BinaryTree<T>* BinaryTree<T>::RoundForMap(T* (*Fun)(T*), Node* Original, BinaryT
 }
 
 template<typename T>
-BinaryTree<T>* BinaryTree<T>::RoundForMap(T* (&Fun)(BinaryTree<T>*), BinaryTree<T>* Original, Node* OriginalNode, BinaryTree<T>* Result)
+BinaryTreeVal<T>* BinaryTreeVal<T>::RoundForMap(T (&Fun)(BinaryTreeVal<T>*), BinaryTreeVal<T>* Original, Node* OriginalNode, BinaryTreeVal<T>* Result)
 {
 	if (Original != nullptr) {
 		Result->Add(Fun(Original->GetRoot));
-		BinaryTree<T>* buf = new BinaryTree<T>;
+		BinaryTreeVal<T>* buf = new BinaryTreeVal<T>;
 		buf->Add();
 		Result = RoundForMap(Fun, (Original->GetRoot), OriginalNode->Left, Result);
 		Result = RoundForMap(Fun, (Original->GetRoot), OriginalNode->Right, Result);
@@ -361,7 +349,7 @@ BinaryTree<T>* BinaryTree<T>::RoundForMap(T* (&Fun)(BinaryTree<T>*), BinaryTree<
 }
 
 template<typename T>
-bool BinaryTree<T>::RoundForSearch(Node* tree, Node* Node_value , bool Result)
+bool BinaryTreeVal<T>::RoundForSearch(Node* tree, Node* Node_value, bool Result)
 {
 	if (Node_value == nullptr) {
 		return true;
@@ -381,7 +369,7 @@ bool BinaryTree<T>::RoundForSearch(Node* tree, Node* Node_value , bool Result)
 }
 
 template<typename T>
-bool BinaryTree<T>::RoundForSearchTree(Node* root1, Node* root2, bool result)
+bool BinaryTreeVal<T>::RoundForSearchTree(Node* root1, Node* root2, bool result)
 {
 	if (root2 == nullptr) {
 		return true;
@@ -400,13 +388,3 @@ bool BinaryTree<T>::RoundForSearchTree(Node* root1, Node* root2, bool result)
 	return result;
 }
 
-template<typename T>
-BinaryTree<T>* BinaryTree<T>::Map(BinaryTree<T>* (&Fun)(BinaryTree<T>*))
-{
-	BinaryTree<T>* Result = new BinaryTree<T>();
-	Result = RoundForMap(Fun, this, Root, Result);
-	return Result;
-}
-
-
-#endif

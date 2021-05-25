@@ -166,14 +166,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryHeap.h" />
+    <ClInclude Include="BinaryTreeValue.h" />
     <ClInclude Include="Complex.h" />
     <ClInclude Include="ConstantsBoostTest.h" />
     <ClInclude Include="Function.h" />
+    <ClInclude Include="GenerateDataset.h" />
     <ClInclude Include="HeapBinaryTree.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="OperationSpeedTest.h" />
     <ClInclude Include="TBinaryTree.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="BinaryTree.h" />
+    <ClInclude Include="ThreadedBinaryTree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

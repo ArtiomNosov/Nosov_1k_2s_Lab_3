@@ -7,7 +7,7 @@
 */
 
 // TODO: Прошить дерево.
-// TODO: Балансировка дерева.
+// TODO: Балансировка дерева. 
 // TODO: Атомарные тесты.
 // TODO: Тесты на больших данных и графики зависимости.
 // TODO: Очередь с приоритетами на основе дерева.
@@ -24,6 +24,9 @@
 // Мои include
 #include "BinaryHeap.h"
 #include "ConstantsBoostTest.h"
+#include "ThreadedBinaryTree.h"
+#include "GenerateDataset.h"
+#include "OperationSpeedTest.h"
 
 int main()
 {
@@ -31,13 +34,23 @@ int main()
 	SetConsoleTextAttribute(hwnds, 15);
 	setlocale(LC_ALL , "RU");
 	menu();*/
-	BinaryHeap<int>* hbt = new BinaryHeap<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	/*BinaryHeap<int>* hbt = new BinaryHeap<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
 	cout << hbt->getMax() << endl;
 	cout << hbt->getMax() << endl;
 	cout << hbt->getMax() << endl;
-	delete hbt;
-	
-	
-	
+	delete hbt;*/
+	// For treaded tree
+	/*ThreadedBinaryTree<int>* tbt = new ThreadedBinaryTree<int>;
+	tbt->Add(20);
+	tbt->Add(10);
+	tbt->Add(30);
+	tbt->Add(5);
+	tbt->Add(16);
+	tbt->Add(14);
+	tbt->Add(17);
+	tbt->Add(13);
+	tbt->PrintThreadedBinaryTree();*/
+	test_generator("text1.txt", 100000, 100000);
+	SpeedTestBinaryTree(100000, 100);
 	system("pause");
 }

@@ -11,6 +11,7 @@ using namespace std;
 #include "Function.h"
 #include "ConstantsBoostTest.h"
 #include "BinaryHeap.h"
+#include "HeapBinaryTree.h"
 
  // Тестирование BinaryTree.h - class BinaryTree
 
@@ -352,4 +353,203 @@ BOOST_AUTO_TEST_CASE(BinaryHeapHeapSort)
 	BOOST_CHECK(arrayInt[SizeConstArrayIntHeap - 1] == 5050);
 	delete[] arrayInt;
 	delete hbt;
+}
+
+ // Тесты для HeapBinaryTree
+ // Build
+BOOST_AUTO_TEST_CASE(HeapBinaryTreeBuild)
+{
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	BOOST_CHECK(hbt->findMax() > 5050.0 - Epsilon && hbt->findMax() < 5050.0 + Epsilon);
+	delete hbt;
+}
+
+BOOST_AUTO_TEST_CASE(HeapBinaryTreePush)
+{
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	float tmp = hbt->getMax();
+	BOOST_CHECK(tmp > 5050.0 - Epsilon && tmp < 5050.0 + Epsilon);
+	tmp = hbt->getMax();
+	BOOST_CHECK(tmp > 1500.0 - Epsilon && tmp < 1500.0 + Epsilon);
+	tmp = hbt->getMax();
+	BOOST_CHECK(tmp > 150.0 - Epsilon && tmp < 150.0 + Epsilon);
+	delete hbt;
+}
+// * Найти максимум (Сложность: O(1))
+BOOST_AUTO_TEST_CASE(HeapBinaryTreeMax)
+{
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	BOOST_CHECK(hbt->findMax() > 5050.0 - Epsilon && hbt->findMax() < 5050.0 + Epsilon);
+	delete hbt;
+}
+// * Извлечь максимальный элемент (Сложность: O(logN))
+BOOST_AUTO_TEST_CASE(HeapBinaryTreePop)
+{
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	float tmp = hbt->getMax();
+	BOOST_CHECK(tmp > 5050.0 - Epsilon && tmp < 5050.0 + Epsilon);
+	BOOST_CHECK(hbt->findMax() > 1500.0 - Epsilon && hbt->findMax() < 1500.0 + Epsilon);
+	delete hbt;
+}
+
+//BOOST_AUTO_TEST_CASE(BinaryHeapSize)
+//{
+//	BinaryHeap<int>* hbt = new BinaryHeap<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+//	BOOST_CHECK(hbt->heapSize() == 11);
+//	delete hbt;
+//}
+
+BOOST_AUTO_TEST_CASE(HeapBinaryTreeAdd)
+{
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	float* a = new float;
+	*a = 505.0;
+	float* b = new float;
+	*b = 5051.0;
+	hbt->Add(a);
+	//BOOST_CHECK(hbt->heapSize() == 12);
+	hbt->Add(b);
+	BOOST_CHECK(hbt->findMax() > 5051.0 - Epsilon && hbt->findMax() < 5051.0 + Epsilon);
+	//BOOST_CHECK(hbt->heapSize() == 13);
+	delete hbt;
+}
+
+BOOST_AUTO_TEST_CASE(HeapBinaryTreeReBuildHeap)
+{
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	float* a = new float;
+	*a = 5051.0;
+	hbt->Add(a);
+	float tmp = hbt->getMax();
+	BOOST_CHECK(tmp > 5051.0 - Epsilon && tmp < 5051.0 + Epsilon);
+	//BOOST_CHECK(hbt->heapSize() == 12);
+	BOOST_CHECK(hbt->findMax() > 5050.0 - Epsilon && hbt->findMax() < 5050.0 + Epsilon);
+	/*BOOST_CHECK(hbt->heapSize() == 11);*/
+	delete hbt;
+}
+
+BOOST_AUTO_TEST_CASE(HeapBinaryTreeHeapSort)
+{
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	float* arrayInt = new float[SizeConstArrayIntHeap];
+	for (int i = 0; i < SizeConstArrayIntHeap; i++)
+		arrayInt[i] = ConstArrayIntHeap[i];
+	hbt->heapSort(arrayInt, SizeConstArrayFloatHeap);
+	BOOST_CHECK(arrayInt[0] > 2.0 - Epsilon && arrayInt[0] < 2.0 + Epsilon);
+	BOOST_CHECK(arrayInt[SizeConstArrayIntHeap - 1] > 5050.0 - Epsilon && arrayInt[SizeConstArrayIntHeap - 1] < 5050.0 + Epsilon);
+	delete[] arrayInt;
+	delete hbt;
+}
+ // Map
+BOOST_AUTO_TEST_CASE(HeapBinaryTreeHeapMap)
+{
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	float* a = new float;
+	*a = 5051.0;
+	hbt->Add(a);
+	HeapBinaryTree<float>* hbt2 = hbt->Map(plusOne);
+	float tmp = hbt2->getMax();
+	BOOST_CHECK(tmp > 5052.0 - Epsilon && tmp < 5052.0 + Epsilon);
+	BOOST_CHECK(hbt2->findMax() > 5051.0 - Epsilon && hbt2->findMax() < 5051.0 + Epsilon);
+	delete hbt;
+	delete hbt2;
+}
+// Where
+BOOST_AUTO_TEST_CASE(HeapBinaryTreeWhere)
+{
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	float* a = new float;
+	*a = 0.0;
+	hbt->Add(a);
+	HeapBinaryTree<float>* hbt2 = hbt->Where(BigZero);
+	BOOST_CHECK(((hbt2->GetRoot())->Right->Right->Right->Right->Right->Left) == nullptr);
+	delete hbt;
+}
+// SearchItem
+BOOST_AUTO_TEST_CASE(HeapBinaryTreeSearchItem)
+{
+	HeapBinaryTree<int>* hbt = new HeapBinaryTree<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	int* a = new int;
+	*a = 0;
+	hbt->Add(a);
+	HeapBinaryTree<int>* hbt2;
+	BOOST_CHECK(hbt->SearchItem( hbt->GetRoot(), a) );
+	hbt2 = hbt->Where(BigZero);
+	BOOST_CHECK(!( hbt2->SearchItem(hbt2->GetRoot(), a) ));
+	delete hbt;
+}
+
+// SearchTree
+BOOST_AUTO_TEST_CASE(HeapBinaryTreeSearchTree)
+{
+	HeapBinaryTree<int>* hbt = new HeapBinaryTree<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	int* a = new int;
+	*a = 0;
+	int* b = new int;
+	*b = 70;
+	int* c = new int;
+	*c = 14;
+	int* d = new int;
+	*d = 100;
+	hbt->Add(a);
+	HeapBinaryTree<int>* hbt2 = new HeapBinaryTree<int>;
+	hbt2->Add(d);
+	hbt2->Add(c);
+	hbt2->Add(b);
+	BOOST_CHECK(hbt->SearchTree(hbt, hbt2));
+	hbt2->Add(a);
+	BOOST_CHECK(!(  hbt->SearchTree(hbt, hbt2) ));
+	delete hbt2;
+	delete hbt;
+}
+ // Cut
+BOOST_AUTO_TEST_CASE(HeapBinaryTreeCut)
+{
+	int* a = new int;
+	*a = 1500;
+	HeapBinaryTree<int>* hbt = new HeapBinaryTree<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	HeapBinaryTree<int>* hbt2 = (hbt->Cut(hbt, a));
+	BOOST_CHECK(hbt->SearchTree(hbt, hbt2));
+	delete hbt2;
+	delete hbt;
+}
+ // AddTreeWithNode
+BOOST_AUTO_TEST_CASE(HeapBinaryTreeAddTreeWithNode)
+{
+	int* a = new int;
+	*a = 10000;
+	int* b = new int;
+	*b = 6000;
+	int* c = new int;
+	*c = 5700;
+	HeapBinaryTree<int>* hbt = new HeapBinaryTree<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	HeapBinaryTree<int>* hbt2 = new HeapBinaryTree<int>;
+	hbt2->Add(a); hbt2->Add(b); hbt2->Add(c);
+	hbt->AddTreeWithNode(hbt2->GetRoot());
+	BOOST_CHECK(hbt->SearchTree(hbt, hbt2));
+	delete hbt2;
+	delete hbt;
+}
+// GetMergedTrees
+BOOST_AUTO_TEST_CASE(HeapBinaryTreeGetMergedTrees)
+{
+	int* a = new int;
+	*a = 10000;
+	int* b = new int;
+	*b = 6000;
+	int* c = new int;
+	*c = 5700;
+	HeapBinaryTree<int>* hbt = new HeapBinaryTree<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	HeapBinaryTree<int>* hbt2 = new HeapBinaryTree<int>;
+	hbt2->Add(a); hbt2->Add(b); hbt2->Add(c);
+	hbt->AddTreeWithNode(hbt2->GetRoot());
+	HeapBinaryTree<int>* hbt3 = (hbt2->GetMergedTrees(hbt, hbt2));
+	hbt3->getMax();
+	BOOST_CHECK(hbt3->getMax() == 10000);
+	BOOST_CHECK(hbt3->getMax() == 6000);
+	BOOST_CHECK(hbt3->getMax() == 6000);
+	BOOST_CHECK(hbt3->getMax() == 5700);
+	delete hbt2;
+	delete hbt;
+	delete hbt3;
 }

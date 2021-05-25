@@ -361,3 +361,10 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Nosov_1k_2s_Lab_3/SpeedTestBinaryTreeAdd.txt
+/Nosov_1k_2s_Lab_3/SpeedTestBinaryTreeGetRoot.txt
+/Nosov_1k_2s_Lab_3/test1.txt
+/Nosov_1k_2s_Lab_3/text1.txt
+/Nosov_1k_2s_Lab_3/Test.cpp.PVS-Studio.stacktrace.txt
+/Nosov_1k_2s_Lab_3/Menu.cpp.PVS-Studio.stacktrace.txt
+/Nosov_1k_2s_Lab_3/BoostTest.cpp.PVS-Studio.stacktrace.txt

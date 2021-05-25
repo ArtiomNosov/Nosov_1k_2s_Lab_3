@@ -17,6 +17,7 @@ string ToStrings(float value);
 string ToStrings(complex value);
 bool BigZero(float* value);
 bool BigZero(complex* value);
+bool BigZero(int* value);
 float* plusOne(float* value);
 complex* plusOne(complex* value);
 int* plusOne(int* value);
