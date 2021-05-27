@@ -172,6 +172,7 @@
     <ClInclude Include="Function.h" />
     <ClInclude Include="GenerateDataset.h" />
     <ClInclude Include="HeapBinaryTree.h" />
+    <ClInclude Include="IRunnerBinaryTree.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="OperationSpeedTest.h" />
     <ClInclude Include="Optional.h" />
