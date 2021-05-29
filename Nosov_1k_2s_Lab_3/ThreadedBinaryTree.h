@@ -21,6 +21,8 @@ class ThreadedBinaryTree
 {
 private:
 	Node<T>* Root;
+	T ErrorValue;
+	long NodeCount = 0;
 	void AddAfterNode(T info, Node<T>* parent, Node<T>* tmp)
 	{
 		if (tmp == nullptr)
@@ -75,80 +77,116 @@ private:
 	}
 
 public:
-	ThreadedBinaryTree<T>() { Root = nullptr; };
-	Node<T>* Add(T info)
+	ThreadedBinaryTree<T>(T errorValue): ErrorValue(errorValue)
+	{ Root = nullptr; };
+	Node<T>* Add(T info);
+	void PrintThreadedBinaryTree();
+	T GetValue(long n);
+	long GetNodeCount();
+};
+
+template <typename T>
+Node<T>* ThreadedBinaryTree<T>::Add(T info)
+{
+	// Searching for a Node with given value
+	Node<T>* ptr = Root;
+	Node<T>* par = nullptr; // Parent of key to be inserted
+	while (ptr != nullptr)
 	{
-		// Searching for a Node with given value
-		Node<T>* ptr = Root;
-		Node<T>* par = nullptr; // Parent of key to be inserted
-		while (ptr != nullptr)
+		par = ptr; // Update parent pointer
+
+		// Moving on left subtree.
+		if (info < ptr->Info)
 		{
-			par = ptr; // Update parent pointer
-
-			// Moving on left subtree.
-			if (info < ptr->Info)
-			{
-				if (ptr->lthread == false)
-					ptr = ptr->Left;
-				else
-					break;
-			}
-
-			// Moving on right subtree.
+			if (ptr->lthread == false)
+				ptr = ptr->Left;
 			else
-			{
-				if (ptr->rthread == false)
-					ptr = ptr->Right;
-				else
-					break;
-			}
+				break;
 		}
 
-		// Create a new node
-		Node<T>* tmp = new Node<T>;
-		tmp->Info = info;
-		tmp->lthread = true;
-		tmp->rthread = true;
-
-		if (par == NULL)
-		{
-			Root = tmp;
-			tmp->Left = nullptr;
-			tmp->Right = nullptr;
-		}
-		else if (info < (par->Info))
-		{
-			tmp->Left = par->Left;
-			tmp->Right = par;
-			par->lthread = false;
-			par->Left = tmp;
-		}
+		// Moving on right subtree.
 		else
 		{
-			tmp->Left = par;
-			tmp->Right = par->Right;
-			par->rthread = false;
-			par->Right = tmp;
+			if (ptr->rthread == false)
+				ptr = ptr->Right;
+			else
+				break;
 		}
-
-		return Root;
 	}
-	
-	void PrintThreadedBinaryTree()
+
+	// Create a new node
+	Node<T>* tmp = new Node<T>;
+	tmp->Info = info;
+	tmp->lthread = true;
+	tmp->rthread = true;
+
+	if (par == NULL)
 	{
-		if (Root == nullptr)
-			cout << "Tree is empty" << endl;
-
-		// Reach leftmost node
-		Node<T>* ptr = Root;
-		while (ptr->lthread == false)
-			ptr = ptr->Left;
-
-		// One by one print successors
-		while (ptr != NULL)
-		{
-			cout<<ptr->Info<<endl;
-			ptr = inorderSuccessor(ptr);
-		}
+		Root = tmp;
+		tmp->Left = nullptr;
+		tmp->Right = nullptr;
 	}
-};
+	else if (info < (par->Info))
+	{
+		tmp->Left = par->Left;
+		tmp->Right = par;
+		par->lthread = false;
+		par->Left = tmp;
+	}
+	else
+	{
+		tmp->Left = par;
+		tmp->Right = par->Right;
+		par->rthread = false;
+		par->Right = tmp;
+	}
+	NodeCount++;
+	return Root;
+}
+
+template <typename T>
+void ThreadedBinaryTree<T>::PrintThreadedBinaryTree()
+{
+	if (Root == nullptr)
+		cout << "Tree is empty" << endl;
+
+	// Reach leftmost node
+	Node<T>* ptr = Root;
+	while (ptr->lthread == false)
+		ptr = ptr->Left;
+
+	// One by one print successors
+	while (ptr != NULL)
+	{
+		cout << ptr->Info << endl;
+		ptr = inorderSuccessor(ptr);
+	}
+}
+
+template <typename T>
+T ThreadedBinaryTree<T>::GetValue(long n)
+{
+	if (Root == nullptr)
+		return ErrorValue;
+	if (n < 0)
+		return ErrorValue;
+	if (n >= NodeCount)
+		return ErrorValue;
+	// Reach leftmost node
+	Node<T>* ptr = Root;
+	while (ptr->lthread == false)
+		ptr = ptr->Left;
+
+	// One by one print successors
+	for (long i = 0; i < n && ptr != NULL; i++)
+	{
+		ptr = inorderSuccessor(ptr);
+	}
+	return ptr->Info;
+}
+
+template <typename T>
+long ThreadedBinaryTree<T>::GetNodeCount()
+{
+	return NodeCount;
+}

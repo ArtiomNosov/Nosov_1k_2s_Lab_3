@@ -12,6 +12,7 @@ using namespace std;
 #include "ConstantsBoostTest.h"
 #include "BinaryHeap.h"
 #include "HeapBinaryTree.h"
+#include "ThreadedBinaryTree.h"
 
  // Тестирование BinaryTree.h - class BinaryTree
 
@@ -556,3 +557,44 @@ BOOST_AUTO_TEST_CASE(HeapBinaryTreeGetMergedTrees)
 
 // Тесты для IRunnerBinaryTree
 // Build
+//----------------
+
+// Тесты для ThreadedBinaryTree
+// Build
+BOOST_AUTO_TEST_CASE(ThreadedBinaryTreeBuild)
+{
+	auto* tbt = new ThreadedBinaryTree<int>(-1);
+	BOOST_CHECK(tbt != nullptr);
+	delete tbt;
+}
+ // Add
+BOOST_AUTO_TEST_CASE(ThreadedBinaryTreeAdd)
+{
+	auto* tbt = new ThreadedBinaryTree<int>(-1);
+	for (int i = 0; i < SAI9; i++) tbt->Add(AInt9[i]);
+	BOOST_CHECK(tbt->GetNodeCount() == 9);
+	delete tbt;
+}
+ // GetValue
+BOOST_AUTO_TEST_CASE(ThreadedBinaryTreeGetValue)
+{
+	auto* tbt = new ThreadedBinaryTree<int>(-1);
+	for (int i = 0; i < SAI9; i++) tbt->Add(AInt9[i]);
+	BOOST_CHECK(tbt->GetNodeCount() == 9);
+	for (int i = 0; i < SAI9; i++)
+		BOOST_CHECK(tbt->GetValue(i) == AInt9[i]);
+	BOOST_CHECK(tbt->GetValue(-1) == -1);
+	BOOST_CHECK(tbt->GetValue(SAI9 + 1) == -1);
+	delete tbt;
+}
+
+// GetNodeCount
+BOOST_AUTO_TEST_CASE(ThreadedBinaryTreeGetNodeCount)
+{
+	auto* tbt = new ThreadedBinaryTree<int>(-1);
+	for (int i = 0; i < SAI9 - 1; i++) tbt->Add(AInt9[i]);
+	BOOST_CHECK(tbt->GetNodeCount() == SAI9 - 1);
+	tbt->Add(AInt9[SAI9 - 1]);
+	BOOST_CHECK(tbt->GetNodeCount() == SAI9);
+	delete tbt;
+}
