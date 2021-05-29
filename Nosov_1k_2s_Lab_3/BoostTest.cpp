@@ -553,3 +553,6 @@ BOOST_AUTO_TEST_CASE(HeapBinaryTreeGetMergedTrees)
 	delete hbt;
 	delete hbt3;
 }
+
+// Тесты для IRunnerBinaryTree
+// Build

@@ -26,11 +26,17 @@ public:
     {
     }
 
+    IRunnerBinaryTree(T* a, long l)
+        : Root(nullptr)
+    {
+        for (long i; i < l; i++) InsertValue(a[i]);
+    }
+
     ~IRunnerBinaryTree() {
         DestroyNode(Root);
     }
 
-    void Insert(T x);
+    void InsertValue(T x);
 
     bool DeleteValue(T x);
 
@@ -83,7 +89,7 @@ private:
         if (node != nullptr) {
             hl = calcHeight(node.left);
             hr = calcHeight(node.right);
-            return node.Height = ((hl> hr)? hl: hr) + 1;
+            return node.Height = ((hl > hr) ? hl : hr) + 1;
         }
         else {
             return -1;
@@ -94,7 +100,7 @@ private:
 };
 
 template<typename T>
-void IRunnerBinaryTree<T>::Insert(T x) 
+inline void IRunnerBinaryTree<T>::InsertValue(T x)
 {
     TNode<T>** cur = &(Root);
     TNode<T>* prev = nullptr;
@@ -113,7 +119,7 @@ void IRunnerBinaryTree<T>::Insert(T x)
     }
     *cur = new TNode<T>(x);
     (*cur)->Parent = prev;
-}
+};
 
 template<typename T>
 bool IRunnerBinaryTree<T>::DeleteValue(T x)
@@ -137,19 +143,22 @@ bool IRunnerBinaryTree<T>::DeleteValue(T x)
             additionalBranch = nodeLeft;
         }
         AddTree(nodeRight);
-        
-    } else if (nodeParent == nullptr)
+
+    }
+    else if (nodeParent == nullptr)
     {
         Root = (nodeLeft != nullptr) ? nodeLeft : nodeRight;
-    }else if (nodeLeft != nullptr)
+    }
+    else if (nodeLeft != nullptr)
     {
         additionalBranch = (nodeLeft != nullptr) ? nodeLeft : nodeRight;
-    } else if (nodeRight != nullptr)
+    }
+    else if (nodeRight != nullptr)
     {
         additionalBranch = (nodeLeft != nullptr) ? nodeLeft : nodeRight;
     }
     return true;
-}
+};
 
  // Return number delete values
 template<typename T>
@@ -159,11 +168,11 @@ int IRunnerBinaryTree<T>::DeleteAllValues(T x)
     while (DeleteValue(x))
         numberDeleteValues++;
     return numberDeleteValues;
-}
+};
 
  // Return -1 if tree root is nullptr
 template<typename T>
-int IRunnerBinaryTree<T>::GetTreeHeight()
+inline int IRunnerBinaryTree<T>::GetTreeHeight()
 {
     if (Root == nullptr) return -1;
     calcHeight(Root);
