@@ -96,6 +96,31 @@ private:
         }
     }
 
+        // Обходы дерева TLR (КЛП), LTR (ЛКП), LRT(ЛПК)
+     // Обход TLR
+    void TLR(auto (*p)(TNode<T>*), TNode<T>* node)
+    {
+        if (node == nullptr) return;
+        p(node);
+        TLR(node->Left);
+        TLR(node->Right);
+    }
+     // Обход LTR
+    void LTR(auto (*p)(TNode<T>*), TNode<T>* node)
+    {
+        if (node == nullptr) return;
+        LTR(node->Left);
+        p(node);
+        LTR(node->Right);
+    }
+     // Обход LRT
+    void LRT(auto (*p)(TNode<T>*), TNode<T>* node)
+    {
+        if (node == nullptr) return;
+        LRT(node->Left);
+        LRT(node->Right);
+        p(node);
+    }
     TNode<T>* Root;
 };
 

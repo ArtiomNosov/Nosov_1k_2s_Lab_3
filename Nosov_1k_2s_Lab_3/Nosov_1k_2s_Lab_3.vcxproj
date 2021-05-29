@@ -178,6 +178,7 @@
     <ClInclude Include="OperationSpeedTest.h" />
     <ClInclude Include="Optional.h" />
     <ClInclude Include="Pair.h" />
+    <ClInclude Include="PerfectlyBalancedTree.h" />
     <ClInclude Include="PriorityQueueStream.h" />
     <ClInclude Include="Stream.h" />
     <ClInclude Include="StringStream.h" />

@@ -95,5 +95,8 @@
     <ClInclude Include="KeyValuePair.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="PerfectlyBalancedTree.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
