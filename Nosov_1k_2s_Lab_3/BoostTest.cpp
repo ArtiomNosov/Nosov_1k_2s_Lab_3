@@ -1,3 +1,11 @@
+/*
+*	BoostTest.cpp
+*	Version 0.1
+*	Author: Nosov Artiom
+*	Company:
+*	Email: artiom-nj@mail.ru
+*/
+
 #define BOOST_TEST_MODULE mytests
 #include <boost/test/included/unit_test.hpp>
 

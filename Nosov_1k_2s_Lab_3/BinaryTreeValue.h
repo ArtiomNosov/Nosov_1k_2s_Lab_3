@@ -201,7 +201,7 @@ bool BinaryTreeVal<T>::SearchTree(BinaryTreeVal<T>* tree1, BinaryTreeVal<T>* tre
 template<typename T>
 BinaryTreeVal<T>* BinaryTreeVal<T>::Cut(BinaryTreeVal<T>* tree, T cutElem)
 {
-	BinaryTreeVal<T>* result = new BinaryTree<T>();
+	BinaryTreeVal<T>* result = new BinaryTreeVal<T>();
 	bool find = false;
 	result = RoundForCut(tree->GetRoot(), find, cutElem, result);
 	return result;
@@ -210,9 +210,9 @@ BinaryTreeVal<T>* BinaryTreeVal<T>::Cut(BinaryTreeVal<T>* tree, T cutElem)
 template<typename T>
 string BinaryTreeVal<T>::ToString()
 {
-	int choise;
-	cout << "Выбирете обход для вывода дерева в строке\n() - левый \t<>-корень \t[] - правый:\n1. ЛКП\n2. КПЛ\n";
-	cin >> choise;
+	int choise = 1;
+	//cout << "Выбирете обход для вывода дерева в строке\n() - левый \t<>-корень \t[] - правый:\n1. ЛКП\n2. КПЛ\n";
+	//cin >> choise;
 	string result = "";
 	switch (choise)
 	{
@@ -238,7 +238,7 @@ BinaryTreeVal<T>* BinaryTreeVal<T>::RoundForCut(Node* tree, bool find, T cutElem
 {
 	if (tree != nullptr)
 	{
-		if (*(tree->Value) == *cutElem || find)
+		if ((tree->Value) == cutElem || find)
 		{
 			find = true;
 			Result->Add(tree->Value);
@@ -289,7 +289,7 @@ void BinaryTreeVal<T>::heapifyAllInner(Node* node)
 
 			if (leftChild != nullptr)
 			{
-				if (*(leftChild->Value) > *(largestChild->Value))
+				if ((leftChild->Value) > (largestChild->Value))
 				{
 					largestChild->Value = leftChild->Value;
 				}
@@ -297,7 +297,7 @@ void BinaryTreeVal<T>::heapifyAllInner(Node* node)
 
 			if (rightChild != nullptr)
 			{
-				if (*(rightChild->Value) >= *(largestChild->Value))
+				if ((rightChild->Value) >= (largestChild->Value))
 				{
 					largestChild->Value = rightChild->Value;
 				}
@@ -308,7 +308,7 @@ void BinaryTreeVal<T>::heapifyAllInner(Node* node)
 				break;
 			}
 
-			T* temp = tree->Value;
+			T temp = tree->Value;
 			tree->Value = largestChild->Value;
 			largestChild->Value = temp;
 			tree = tree->Parent;
@@ -358,7 +358,7 @@ bool BinaryTreeVal<T>::RoundForSearch(Node* tree, Node* Node_value, bool Result)
 		return false;
 	}
 	else if (tree != nullptr) {
-		if (*(tree->Value) == *(Node_value->Value)) {
+		if ((tree->Value) == (Node_value->Value)) {
 			if (RoundForSearch(tree->Left, Node_value->Left, Result) && RoundForSearch(tree->Right, Node_value->Right, Result)) {
 				return true;
 			}
@@ -378,7 +378,7 @@ bool BinaryTreeVal<T>::RoundForSearchTree(Node* root1, Node* root2, bool result)
 		return false;
 	}
 	else if (root1 != nullptr) {
-		if (*(root1->Value) == *(root2->Value)) {
+		if ((root1->Value) == (root2->Value)) {
 			if (RoundForSearchTree(root1->Left, root2->Left, result) && RoundForSearchTree(root1->Right, root2->Right, result)) {
 				return true;
 			}

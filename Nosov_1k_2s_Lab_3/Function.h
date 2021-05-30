@@ -18,9 +18,11 @@ string ToStrings(complex value);
 bool BigZero(float* value);
 bool BigZero(complex* value);
 bool BigZero(int* value);
+bool BigZero(int value);
 float* plusOne(float* value);
 complex* plusOne(complex* value);
 int* plusOne(int* value);
+int plusOne(int value);
 
 #endif
 

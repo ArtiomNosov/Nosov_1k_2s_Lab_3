@@ -44,6 +44,10 @@ bool BigZero(int* value)
 	return false;
 }
 
+bool BigZero(int value) {
+	return value > 0;
+}
+
 complex* plusOne(complex* value)
 {
 	complex* result = new complex(value->real+1 , value->image);
@@ -62,4 +66,8 @@ int* plusOne(int* value)
 	int* result = new int;
 	*result = *value + 1;
 	return result;
+}
+
+int plusOne(int value) {
+	return ++value;
 }
