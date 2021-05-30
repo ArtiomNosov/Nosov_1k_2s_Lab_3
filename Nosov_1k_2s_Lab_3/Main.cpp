@@ -54,8 +54,9 @@ int main()
 	tbt->Add(17);
 	tbt->Add(13);
 	tbt->PrintThreadedBinaryTree();*/
-	test_generator("text1.txt", 100, 100);
-	SpeedTestBinaryTree(100, 100);
+	int Number = 100000000;
+	test_generator("text1.txt", Number, Number);
+	SpeedTestBinaryTree(Number, Number);
 	//auto* pbt = new PerfectlyBalancedTree<int>(9, AInt9, -1);
 	//// auto* pbt = new PerfectlyBalancedTree<int>(5, -1);
 	//pbt->PrintRTL();
