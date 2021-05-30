@@ -13,6 +13,7 @@ using namespace std;
 #include "BinaryHeap.h"
 #include "HeapBinaryTree.h"
 #include "ThreadedBinaryTree.h"
+#include "PerfectlyBalancedTree.h"
 
  // Тестирование BinaryTree.h - class BinaryTree
 
@@ -597,4 +598,22 @@ BOOST_AUTO_TEST_CASE(ThreadedBinaryTreeGetNodeCount)
 	tbt->Add(AInt9[SAI9 - 1]);
 	BOOST_CHECK(tbt->GetNodeCount() == SAI9);
 	delete tbt;
+}
+
+// Тесты для PerfectlyBalancedTree.h
+ // Build
+BOOST_AUTO_TEST_CASE(PerfectlyBalancedTreeBuild)
+{
+	auto* pbt = new PerfectlyBalancedTree<int>(SAI9, AInt9, -1);
+	BOOST_CHECK(pbt->GetSize() == SAI9);
+	pbt->~PerfectlyBalancedTree();
+}
+ // GetValue
+BOOST_AUTO_TEST_CASE(PerfectlyBalancedTreeGetValue)
+{
+	auto* pbt = new PerfectlyBalancedTree<int>(SAI9, AInt9, -1);
+	BOOST_CHECK(pbt->GetValue(0, Round::TLR) == AInt9[SAI9 - 1]);
+	BOOST_CHECK(pbt->GetValue(SAI9, Round::TLR) == -1);
+	for (int i = 0; i < SAI9;i++) BOOST_CHECK(pbt->GetValue(i, Round::TLR) == AInt9[SAI9 - 1 - i]);
+	pbt->~PerfectlyBalancedTree();
 }

@@ -4,7 +4,7 @@
 #include <fstream>
 using namespace std;
 
-typedef unsigned long long ULL;
+typedef int ULL;
 
 void test_generator(const char* DatasetName, ULL max_number, ULL count)
 {

@@ -8,10 +8,12 @@
 
 // В проекте есть прошитое дерево.
 // Сделаны тесты для ThreadedBinaryTree
-// TODO: Балансировка дерева. 
-// TODO: Атомарные тесты.
+// Добавлено идеально сбалансированное дерево.
+// Сделаны тесты на идеально сбалансированное дерево
+// Добавлена очередь с приоритетами на основе дерева.
+// Сделаны тесты наочередь с приоритетами на основе дерева.
+// TODO: Атомарные тесты для остальных опциональных классов.
 // TODO: Тесты на больших данных и графики зависимости.
-// TODO: Очередь с приоритетами на основе дерева.
 
 #include <iostream>
 #include <locale>
@@ -27,6 +29,7 @@
 #include "ConstantsBoostTest.h"
 #include "ThreadedBinaryTree.h"
 #include "GenerateDataset.h"
+#include "PerfectlyBalancedTree.h"
 #include "OperationSpeedTest.h"
 
 int main()
@@ -51,7 +54,11 @@ int main()
 	tbt->Add(17);
 	tbt->Add(13);
 	tbt->PrintThreadedBinaryTree();*/
-	test_generator("text1.txt", 100000, 100000);
-	SpeedTestBinaryTree(100000, 100);
+	/*test_generator("text1.txt", 100000, 100000);
+	SpeedTestBinaryTree(100000, 100);*/
+	auto* pbt = new PerfectlyBalancedTree<int>(9, AInt9, -1);
+	// auto* pbt = new PerfectlyBalancedTree<int>(5, -1);
+	pbt->PrintRTL();
+	pbt->~PerfectlyBalancedTree();
 	system("pause");
 }

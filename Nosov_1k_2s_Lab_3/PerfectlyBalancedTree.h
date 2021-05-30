@@ -10,88 +10,159 @@
 
 // Ñòîğîííèå çàãîëîâî÷íûå ôàéëû
 #include <iostream>
+// Ìîè çàãîëîâî÷íûå ôàéëû
+// Ïğîñòğàíñòâà èì¸í
+
+// Ïåğå÷èñëåíèÿ 
+enum Round
+{
+    TLR,
+    LTR,
+    LRT,
+    RTL,
+
+};
+
+template <typename T>
+class PNode
+{
+private:
+    T Value;
+    PNode<T>* Left;
+    PNode<T>* Right;
+public:
+    PNode(T value) :
+        Value(value),
+        Left(nullptr),
+        Right(nullptr)
+    {
+
+    }
+    T GetValue() {
+        return Value;
+    }
+    void SetValue(T value) {
+        Value(value);
+    }
+    PNode<T>* GetLeftÑhild() {
+        return Left;
+    }
+    void SetLeftÑhild(PNode<T>* leftChild) {
+        Left = leftChild;
+    }
+    PNode<T>* GetRightÑhild() {
+        return Right;
+    }
+    void SetRightÑhild(PNode<T>* rightÑhild) {
+        Right = rightÑhild;
+    }
+};
 
 template <typename T>
 class PerfectlyBalancedTree
 {
-public:
-	PerfectlyBalancedTree(int n);
-    PerfectlyBalancedTree(int n, T* a);
-	~PerfectlyBalancedTree();
-	void PrintRTL();
 private:
-	class Node
-	{
-	private:
-		T Value;
-		Node* Left;
-		Node* Right;
-	public:
-		Node(T value);
-		T GetValue();
-        void SetValue(T value);
-        Node* GetLeftÑhild();
-        void SetLeftÑhild(Node* leftChield);
-        Node* GetRightÑhild();
-        void SetRightÑhild(Node* rightÑhild);
-	};
-    Node* Root;
+    PNode<T>* Root;
+    int Size = 0;
+    T ErrorValue;
+private:
+    void PrintRTL(PNode<T>* node, int n);
+public:
+	PerfectlyBalancedTree(int n, T errorValue);
+    PerfectlyBalancedTree(int n, T* a, T errorValue);
+	~PerfectlyBalancedTree();
+public:
+    void PrintRTL();
+    int GetSize();
+    T GetValue(int n, Round round);
 private:
     // Îáõîäû äåğåâà TLR (ÊËÏ), LTR (ËÊÏ), LRT(ËÏÊ)
   // Îáõîä TLR
-    void TLR(auto (*p)(Node*, ...), Node* node)
+    template <typename Func, typename A, typename... Args>
+    void TLR(Func* p, PNode<T>* node, Args... args)
     {
         if (node == nullptr) return;
-        p(node, ...);
-        TLR(node->GetLeftÑhild());
-        TLR(node->GetRightÑhild());
+        p(node, args);
+        TLR(p, node->GetLeftÑhild(), args);
+        TLR(p, node->GetRightÑhild(), args);
+    }
+    // İêçåìïëÿğ
+    void TLR(PNode<T>* node, int* n, T* result)
+    {
+        if (node == nullptr) return;
+        if (*result != ErrorValue) return;
+        (*n)--;
+        if (*n < 0)
+        {
+            *result = node->GetValue();
+            return;
+        }
+        if (*result == ErrorValue) TLR(node->GetLeftÑhild(), n, result);
+        if (*result == ErrorValue) TLR(node->GetRightÑhild(), n, result);
     }
     // Îáõîä LTR
-    void LTR(auto (*p)(Node*, ...), Node* node)
+    template <typename Func, typename A, typename... Args>
+    void LTR(Func* p, PNode<T>* node, Args... args)
     {
         if (node == nullptr) return;
-        LTR(node->GetLeftÑhild());
-        p(node, ...);
-        LTR(node->GetRightÑhild());
+        LTR(p, node->GetLeftÑhild(), args);
+        p(node, args);
+        LTR(p, node->GetRightÑhild(), args);
     }
     // Îáõîä LRT
-    void LRT(auto (*p)(Node*, ...), Node* node)
+    template <typename Func, typename A, typename... Args>
+    void LRT(Func* p, PNode<T>* node, Args... args)
     {
         if (node == nullptr) return;
-        LRT(node->GetLeftÑhild());
-        LRT(node->GetRightÑhild());
-        p(node, ...);
+        LRT(p, node->GetLeftÑhild(), args);
+        LRT(p, node->GetRightÑhild(), args);
+        p(node, args);
     }
     // Îáõîä RTL
-    void RTL(auto (*p)(Node*, ...), Node* node)
+    template <typename Func, typename A, typename... Args>
+    void RTL(Func* p, PNode<T>* node, Args... args)
     {
         if (node == nullptr) return;
-        LRT(node->GetRightÑhild());
-        p(node, ...);
-        LRT(node->GetLeftÑhild());
+        RTL(p, node->GetRightÑhild(), args);
+        p(node, args);
+        RTL(p, node->GetLeftÑhild(), args);
+    }
+     // İêçåìëÿğ äëÿ int
+    void RTL(int (*p)(PNode<T>*), PNode<T>* node)
+    {
+        if (node == nullptr) return;
+        RTL(p, node->GetRightÑhild());
+        p(node);
+        RTL(p, node->GetLeftÑhild());
     }
 private:
     // Ôóíêöèè äëÿ îáõîäîâ
-    void PrintValue(Node* node, int n);
-    Node* CreateTree(Node* node, int n);
-    Node* CreateTree(Node* node, int n, T* a);
+    int PrintValue(PNode<T>* node, int n);
+    PNode<T>* CreateTree(PNode<T>* node, int n);
+    PNode<T>* CreateTree(PNode<T>* node, int n, T* a);
+    int DecreaseNumber(PNode<T>* node, int* n, T* result);
 private:
-    Node* GetRoot();
-    void SetRoot(Node* node);
+    PNode<T>* GetRoot();
+    void SetRoot(PNode<T>* node);
 };
 
 template <typename T>
-PerfectlyBalancedTree<T>::PerfectlyBalancedTree(int n):
-    Root(nullptr)
+PerfectlyBalancedTree<T>::PerfectlyBalancedTree(int n, T errorValue):
+    Root(nullptr),
+    Size(n),
+    ErrorValue(errorValue)
 {
     this->SetRoot(CreateTree(GetRoot(), n));
 }
 
 template <typename T>
-PerfectlyBalancedTree<T>::PerfectlyBalancedTree(int n, T* a):
-    Root(nullptr)
+PerfectlyBalancedTree<T>::PerfectlyBalancedTree(int n, T* a, T errorValue):
+    Root(nullptr),
+    Size(n),
+    ErrorValue(errorValue)
 {
     this->CreateTree(GetRoot(), n, a);
+    Size = n;
 }
 
 template <typename T>
@@ -100,33 +171,51 @@ PerfectlyBalancedTree<T>::~PerfectlyBalancedTree()
 }
 
 template <typename T>
-void PerfectlyBalancedTree<T>::PrintRTL()
+void PerfectlyBalancedTree<T>::PrintRTL(PNode<T>* node, int n)
 {
-    this->RTL(PrintValue, GetRoot());
+    if (node == nullptr) return;
+    PrintRTL(node->GetRightÑhild(), n + 1);
+    PrintValue(node, n);
+    PrintRTL(node->GetLeftÑhild(), n + 1);
 }
 
 template <typename T>
-PerfectlyBalancedTree<T>::Node* PerfectlyBalancedTree<T>::GetRoot()
+void PerfectlyBalancedTree<T>::PrintRTL()
+{
+    this->PrintRTL(this->GetRoot(), 0);
+}
+
+template <typename T>
+PNode<T>* PerfectlyBalancedTree<T>::GetRoot()
 {
     return this->Root;
 }
 
 template <typename T>
-void PerfectlyBalancedTree<T>::SetRoot(PerfectlyBalancedTree<T>::Node* node)
+void PerfectlyBalancedTree<T>::SetRoot(PNode<T>* node)
 {
     this->Root = node;
 }
 
  // Ôóíêöèè äëÿ îáõîäîâ
 template <typename T>
-void PerfectlyBalancedTree<T>::PrintValue(Node* node, int n)
+int PerfectlyBalancedTree<T>::PrintValue(PNode<T>* node, int n)
 {
-    std::cout << n * 4 << std::endl;
-    std::cout << node->GetValue() << std::endl;
+    std::cout << "Number of node: "<< n * 4 << std::endl;
+    std::cout << node->GetValue() << std::endl << std::endl;
+    return 0;
 }
 
 template <typename T>
-PerfectlyBalancedTree<T>::Node* PerfectlyBalancedTree<T>::CreateTree(PerfectlyBalancedTree<T>::Node* node, int n)
+int PerfectlyBalancedTree<T>::DecreaseNumber(PNode<T>* node, int* n, T* result)
+{
+    if (node == nullptr) return 0;
+    (*n)--;
+    return 0;
+}
+
+template <typename T>
+PNode<T>* PerfectlyBalancedTree<T>::CreateTree(PNode<T>* node, int n)
 {
     if (n <= 0) return nullptr;
     if (node != nullptr) return nullptr;
@@ -135,69 +224,64 @@ PerfectlyBalancedTree<T>::Node* PerfectlyBalancedTree<T>::CreateTree(PerfectlyBa
     nr = n - nl - 1;
     T value;
     std::cin >> value;
-    node = Node(value);
-    node->SetLeftChild(CreateTree(node->GetLeftChild(), nl));
-    node->SetRightChild(CreateTree(node->GetRightChild(), nr));
+    node = new PNode<T>(value);
+    node->SetLeftÑhild(CreateTree(node->GetLeftÑhild(), nl));
+    node->SetRightÑhild(CreateTree(node->GetRightÑhild(), nr));
+
     return node;
 }
 
 template <typename T>
-PerfectlyBalancedTree<T>::Node* PerfectlyBalancedTree<T>::CreateTree(PerfectlyBalancedTree<T>::Node* node, int n, T* a)
+PNode<T>* PerfectlyBalancedTree<T>::CreateTree(PNode<T>* node, int n, T* a)
 {
-    if (n <= 0) return nullptr;
+    if (Size <= 0 || n <= 0) return nullptr;
     if (node != nullptr) return nullptr;
     int nl, nr;
     nl = n / 2;
     nr = n - nl - 1;
-    node = Node(a[n]);
-    node->SetLeftChild(CreateTree(node->GetLeftChild(), nl));
-    node->SetRightChild(CreateTree(node->GetRightChild(), nr));
+    if(node == nullptr)node = new PNode<T>(a[Size - 1]);
+    //if (node == GetRoot()) node->SetValue(a[Size - 1]);
+    Size--;
+    node->SetLeftÑhild(CreateTree(node->GetLeftÑhild(), nl, a));
+    node->SetRightÑhild(CreateTree(node->GetRightÑhild(), nr, a));
+    if (Size <= 0)
+    {
+        Root = node;
+    }
     return node;
 }
 
- // Äëÿ class Node
-
 template <typename T>
-PerfectlyBalancedTree<T>::Node::Node(T value):
-	Value(value),
-    Left(nullptr),
-    Right(nullptr)
+int PerfectlyBalancedTree<T>::GetSize()
 {
-
+    return this->Size;
 }
 
 template <typename T>
-T PerfectlyBalancedTree<T>::Node::GetValue()
+T PerfectlyBalancedTree<T>::GetValue(int n, Round round)
 {
-	return this->Value;
-}
-
-template <typename T>
-void PerfectlyBalancedTree<T>::Node::SetValue(T value)
-{
-    this->Value(value);
-}
-
-template <typename T>
-PerfectlyBalancedTree<T>::Node* PerfectlyBalancedTree<T>::Node::GetLeftÑhild()
-{
-    return this->Left;
-}
-
-template <typename T>
-void PerfectlyBalancedTree<T>::Node::SetLeftÑhild(Node* leftChild)
-{
-    this->Left(leftChild)
-}
-
-template <typename T>
-PerfectlyBalancedTree<T>::Node* PerfectlyBalancedTree<T>::Node::GetRightÑhild()
-{
-    return this->Right;
-}
-
-template <typename T>
-void PerfectlyBalancedTree<T>::Node::SetRightÑhild(Node* rightÑhild)
-{
-    this->Right(rightÑhild)
+    if ( n < 0 ) return ErrorValue;
+    if ( n >= GetSize() ) return ErrorValue;
+    T* result = new T;
+    *result = ErrorValue;
+    int* ptrN = new int;
+    *ptrN = n;
+    switch (round)
+    {
+    case Round::TLR:
+        TLR(GetRoot(), ptrN, result);
+        break;
+    case Round::LTR:
+        //this->LTR(DecreaseNumber<T>, GetRoot(), ptrN, result);
+        break;
+    case Round::LRT:
+        //this->LRT(DecreaseNumber<T>, GetRoot(), ptrN, result);
+        break;
+    case Round::RTL:
+        //this->RTL(&DecreaseNumber<T>, GetRoot(), ptrN, result);
+        break;
+    default:
+        break;
+    }
+    return *result;
 }
