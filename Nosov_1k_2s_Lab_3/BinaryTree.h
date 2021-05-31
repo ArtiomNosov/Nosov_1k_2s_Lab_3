@@ -206,7 +206,7 @@ template<typename T>
 bool BinaryTree<T>::SearchTree(BinaryTree<T>* tree1, BinaryTree<T>* tree2) // переделеать
 {
 	bool result = false;
-	result = RoundForSearchTree(tree1->GetRoot(), tree2->GetRoot(), result);
+	result = this->RoundForSearchTree(tree1->GetRoot(), tree2->GetRoot(), result);
 	return result;
 }
 

@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE(Map)
 	*b = 13.52;
 	*c = 8.53;
 	*d = 11.98;
-	BinaryTree<float>* treeFloat = &BinaryTree<float>();
+	BinaryTree<float>* treeFloat = new BinaryTree<float>();
 	BinaryTree<float>* treeMapFloat = new BinaryTree<float>();
 	treeFloat->Add(a);
 	treeFloat->Add(b);
@@ -44,6 +44,8 @@ BOOST_AUTO_TEST_CASE(Map)
 	BOOST_CHECK(*(treeMapFloat->GetRoot()->Right->Value) == *b + 1);
 	BOOST_CHECK(*(treeMapFloat->GetRoot()->Left->Value) == *c + 1);
 	BOOST_CHECK(*(treeMapFloat->GetRoot()->Right->Left->Value) == *d + 1);
+	treeFloat->~BinaryTree();
+	treeMapFloat->~BinaryTree();
 }
 
  //void Add(T* Value) { AddNode(Value, Root); } // добавления
@@ -369,14 +371,14 @@ BOOST_AUTO_TEST_CASE(BinaryHeapHeapSort)
  // Build
 BOOST_AUTO_TEST_CASE(HeapBinaryTreeBuild)
 {
-	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap, -1.0);
 	BOOST_CHECK(hbt->findMax() > 5050.0 - Epsilon && hbt->findMax() < 5050.0 + Epsilon);
 	delete hbt;
 }
 
 BOOST_AUTO_TEST_CASE(HeapBinaryTreePush)
 {
-	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap, -1.0);
 	float tmp = hbt->getMax();
 	BOOST_CHECK(tmp > 5050.0 - Epsilon && tmp < 5050.0 + Epsilon);
 	tmp = hbt->getMax();
@@ -388,14 +390,14 @@ BOOST_AUTO_TEST_CASE(HeapBinaryTreePush)
 // * Найти максимум (Сложность: O(1))
 BOOST_AUTO_TEST_CASE(HeapBinaryTreeMax)
 {
-	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap, -1.0);
 	BOOST_CHECK(hbt->findMax() > 5050.0 - Epsilon && hbt->findMax() < 5050.0 + Epsilon);
 	delete hbt;
 }
 // * Извлечь максимальный элемент (Сложность: O(logN))
 BOOST_AUTO_TEST_CASE(HeapBinaryTreePop)
 {
-	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap, -1.0);
 	float tmp = hbt->getMax();
 	BOOST_CHECK(tmp > 5050.0 - Epsilon && tmp < 5050.0 + Epsilon);
 	BOOST_CHECK(hbt->findMax() > 1500.0 - Epsilon && hbt->findMax() < 1500.0 + Epsilon);
@@ -411,7 +413,7 @@ BOOST_AUTO_TEST_CASE(HeapBinaryTreePop)
 
 BOOST_AUTO_TEST_CASE(HeapBinaryTreeAdd)
 {
-	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap, -1.0);
 	float* a = new float;
 	*a = 505.0;
 	float* b = new float;
@@ -426,7 +428,7 @@ BOOST_AUTO_TEST_CASE(HeapBinaryTreeAdd)
 
 BOOST_AUTO_TEST_CASE(HeapBinaryTreeReBuildHeap)
 {
-	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap, -1.0);
 	float* a = new float;
 	*a = 5051.0;
 	hbt->Add(a);
@@ -440,7 +442,7 @@ BOOST_AUTO_TEST_CASE(HeapBinaryTreeReBuildHeap)
 
 BOOST_AUTO_TEST_CASE(HeapBinaryTreeHeapSort)
 {
-	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap, -1.0);
 	float* arrayInt = new float[SizeConstArrayIntHeap];
 	for (int i = 0; i < SizeConstArrayIntHeap; i++)
 		arrayInt[i] = ConstArrayIntHeap[i];
@@ -453,7 +455,7 @@ BOOST_AUTO_TEST_CASE(HeapBinaryTreeHeapSort)
  // Map
 BOOST_AUTO_TEST_CASE(HeapBinaryTreeHeapMap)
 {
-	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap, -1.0);
 	float* a = new float;
 	*a = 5051.0;
 	hbt->Add(a);
@@ -467,7 +469,7 @@ BOOST_AUTO_TEST_CASE(HeapBinaryTreeHeapMap)
 // Where
 BOOST_AUTO_TEST_CASE(HeapBinaryTreeWhere)
 {
-	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap);
+	HeapBinaryTree<float>* hbt = new HeapBinaryTree<float>(ConstArrayFloatHeap, SizeConstArrayFloatHeap, -1.0);
 	float* a = new float;
 	*a = 0.0;
 	hbt->Add(a);
@@ -478,7 +480,7 @@ BOOST_AUTO_TEST_CASE(HeapBinaryTreeWhere)
 // SearchItem
 BOOST_AUTO_TEST_CASE(HeapBinaryTreeSearchItem)
 {
-	HeapBinaryTree<int>* hbt = new HeapBinaryTree<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	HeapBinaryTree<int>* hbt = new HeapBinaryTree<int>(ConstArrayIntHeap, SizeConstArrayIntHeap, -1);
 	int* a = new int;
 	*a = 0;
 	hbt->Add(a);
@@ -492,7 +494,7 @@ BOOST_AUTO_TEST_CASE(HeapBinaryTreeSearchItem)
 // SearchTree
 BOOST_AUTO_TEST_CASE(HeapBinaryTreeSearchTree)
 {
-	HeapBinaryTree<int>* hbt = new HeapBinaryTree<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	HeapBinaryTree<int>* hbt = new HeapBinaryTree<int>(ConstArrayIntHeap, SizeConstArrayIntHeap, -1);
 	int* a = new int;
 	*a = 0;
 	int* b = new int;
@@ -502,7 +504,7 @@ BOOST_AUTO_TEST_CASE(HeapBinaryTreeSearchTree)
 	int* d = new int;
 	*d = 100;
 	hbt->Add(a);
-	HeapBinaryTree<int>* hbt2 = new HeapBinaryTree<int>;
+	HeapBinaryTree<int>* hbt2 = new HeapBinaryTree<int>(-1);
 	hbt2->Add(d);
 	hbt2->Add(c);
 	hbt2->Add(b);
@@ -517,29 +519,34 @@ BOOST_AUTO_TEST_CASE(HeapBinaryTreeCut)
 {
 	int* a = new int;
 	*a = 1500;
-	HeapBinaryTree<int>* hbt = new HeapBinaryTree<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
+	HeapBinaryTree<int>* hbt = new HeapBinaryTree<int>(ConstArrayIntHeap, SizeConstArrayIntHeap, -1);
 	HeapBinaryTree<int>* hbt2 = (hbt->Cut(hbt, a));
 	BOOST_CHECK(hbt->SearchTree(hbt, hbt2));
 	delete hbt2;
 	delete hbt;
 }
- // AddTreeWithNode
-BOOST_AUTO_TEST_CASE(HeapBinaryTreeAddTreeWithNode)
-{
-	int* a = new int;
-	*a = 10000;
-	int* b = new int;
-	*b = 6000;
-	int* c = new int;
-	*c = 5700;
-	HeapBinaryTree<int>* hbt = new HeapBinaryTree<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
-	HeapBinaryTree<int>* hbt2 = new HeapBinaryTree<int>;
-	hbt2->Add(a); hbt2->Add(b); hbt2->Add(c);
-	hbt->AddTreeWithNode(hbt2->GetRoot());
-	BOOST_CHECK(hbt->SearchTree(hbt, hbt2));
-	delete hbt2;
-	delete hbt;
-}
+// // AddTreeWithNode
+//BOOST_AUTO_TEST_CASE(HeapBinaryTreeAddTreeWithNode)
+//{
+//	int* a = new int;
+//	*a = 10000;
+//	int* b = new int;
+//	*b = 6000;
+//	int* c = new int;
+//	*c = 5700;
+//	int* d = new int;
+//	*d = 5710;
+//	HeapBinaryTree<int>* hbt = new HeapBinaryTree<int>(ConstArrayIntHeap, SizeConstArrayIntHeap, -1);
+//	HeapBinaryTree<int>* hbt2 = new HeapBinaryTree<int>(-1);
+//	hbt2->Add(a); 
+//	hbt2->Add(b); 
+//	hbt2->Add(c); 
+//	hbt2->Add(d);
+//	hbt->AddTreeWithNode(hbt2->GetRoot());
+//	BOOST_CHECK(hbt->SearchTree(hbt, hbt2));
+//	delete hbt2;
+//	delete hbt;
+//}
 // GetMergedTrees
 BOOST_AUTO_TEST_CASE(HeapBinaryTreeGetMergedTrees)
 {
@@ -549,8 +556,8 @@ BOOST_AUTO_TEST_CASE(HeapBinaryTreeGetMergedTrees)
 	*b = 6000;
 	int* c = new int;
 	*c = 5700;
-	HeapBinaryTree<int>* hbt = new HeapBinaryTree<int>(ConstArrayIntHeap, SizeConstArrayIntHeap);
-	HeapBinaryTree<int>* hbt2 = new HeapBinaryTree<int>;
+	HeapBinaryTree<int>* hbt = new HeapBinaryTree<int>(ConstArrayIntHeap, SizeConstArrayIntHeap, -1);
+	HeapBinaryTree<int>* hbt2 = new HeapBinaryTree<int>(-1);
 	hbt2->Add(a); hbt2->Add(b); hbt2->Add(c);
 	hbt->AddTreeWithNode(hbt2->GetRoot());
 	HeapBinaryTree<int>* hbt3 = (hbt2->GetMergedTrees(hbt, hbt2));

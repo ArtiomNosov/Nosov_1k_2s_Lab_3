@@ -1,3 +1,11 @@
+/*
+*	BinaryTreeValue.h 0.1
+*	Version 0.1
+*	Author: Nosov Artiom
+*	Company:
+*	Email: artiom-nj@mail.ru
+*/
+
 #include <iostream>
 #include "Function.h"
 #include <queue>
@@ -111,6 +119,7 @@ void BinaryTreeVal<T>::FreeMem(Node* tree)
 	if (tree != NULL) {
 		FreeMem(tree->Left);
 		FreeMem(tree->Right);
+		delete tree;
 	}
 }
 

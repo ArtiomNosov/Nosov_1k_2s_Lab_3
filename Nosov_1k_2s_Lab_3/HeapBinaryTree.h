@@ -14,7 +14,7 @@ class HeapWithBinaryTree {
 private:
 
     BinaryTree<T>* BinaryTreeInner = nullptr;
-
+	T ErrorValue;
     /*T getListItem(long index)
     {
         assert(index < heapSize());
@@ -44,7 +44,8 @@ public:
         }
     }*/
 
-	HeapWithBinaryTree<T>(T array[], long sizeArray)
+	HeapWithBinaryTree<T>(T array[], long sizeArray, T errorValue):
+		ErrorValue(errorValue)
     {
         BinaryTreeInner = new BinaryTree<T>;
         for (long i = 0; i < sizeArray; i++)
@@ -136,6 +137,7 @@ private:
 	HeapBinaryTree<T>* RoundForCut(Node* tree, bool find, T* cutElem, HeapBinaryTree<T>* Result);
 	void heapifyAllInner(Node* Original);
 	Node* Root; // корень дерева
+	T ErrorValue;
 	void AddNode(T* Value, Node* New_Node, Node* parent)
 	{
 		if (New_Node == nullptr)
@@ -147,31 +149,31 @@ private:
 		}
 		if (*Value > *(parent->Value))
 		{
-			T* buf = New_Node->Value;
-			New_Node->Value = parent->Value;
-			parent->Value = buf;
-			Value = New_Node->Value;
-			AddNode(Value, New_Node, Root);
+			T* buf = New_Node->Value; // b = 1
+			New_Node->Value = parent->Value; // 1 = 2
+			parent->Value = buf; // 2 = b
+			Value = New_Node->Value; // v = 2
+			this->AddNode(Value, New_Node, this->GetRoot()); 
 		}
-		else if (!(parent->Left) && !(parent->Right))
+		else if ((parent->Left == nullptr) && (parent->Right == nullptr))
 		{
 			parent->Left = New_Node;
 		}
-		else if (!(parent->Left))
+		else if ((parent->Left == nullptr))
 		{
 			parent->Left = New_Node;
 		}
-		else if (!(parent->Right))
+		else if ((parent->Right == nullptr))
 		{
 			parent->Right = New_Node;
 		}
 		else if (*(parent->Left->Value) <= *(parent->Right->Value))
 		{
-			AddNode(Value, New_Node, parent->Right);
+			this->AddNode(Value, New_Node, parent->Right);
 		}
 		else if (*(parent->Left->Value) > *(parent->Right->Value))
 		{
-			AddNode(Value, New_Node, parent->Left);
+			this->AddNode(Value, New_Node, parent->Left);
 		}
 	}
 public:
@@ -181,8 +183,9 @@ public:
 	}
 	T getMax();
 	void PrintTree(HeapBinaryTree<T>* Root); // вывод дерева
-	HeapBinaryTree<T>(); // конструктор 
-	HeapBinaryTree<T>(T* DinArr, const long n)
+	HeapBinaryTree<T>(T errorValue); // конструктор 
+	HeapBinaryTree<T>(T* DinArr, const long n, T errorValue):
+		ErrorValue(errorValue)
 	{
 		Root = nullptr;
 		for (long i = 0; i < n; i++)
@@ -267,7 +270,7 @@ void HeapBinaryTree<T>::FreeMem(Node* tree)
 	if (tree != NULL) {
 		FreeMem(tree->Left);
 		FreeMem(tree->Right);
-		delete tree->Value;
+		delete tree;
 	}
 }
 
@@ -330,7 +333,7 @@ HeapBinaryTree<T>::~HeapBinaryTree<T>()
 template<typename T>
 HeapBinaryTree<T>* HeapBinaryTree<T>::Map(T* (*Fun)(T*))
 {
-	HeapBinaryTree<T>* Result = new HeapBinaryTree<T>();
+	HeapBinaryTree<T>* Result = new HeapBinaryTree<T>(ErrorValue);
 	Result = RoundForMap(Fun, Root, Result);
 	return Result;
 }
@@ -338,7 +341,7 @@ HeapBinaryTree<T>* HeapBinaryTree<T>::Map(T* (*Fun)(T*))
 template<typename T>
 HeapBinaryTree<T>* HeapBinaryTree<T>::Where(bool(*Fun)(T*))
 {
-	HeapBinaryTree<T>* Result = new HeapBinaryTree<T>();
+	HeapBinaryTree<T>* Result = new HeapBinaryTree<T>(ErrorValue);
 	RoundForWhere(Fun, Root, Result);
 	return Result;
 }
@@ -346,8 +349,7 @@ HeapBinaryTree<T>* HeapBinaryTree<T>::Where(bool(*Fun)(T*))
 template<typename T>
 void HeapBinaryTree<T>::Where(void (*Fun)(Node*))
 {
-	HeapBinaryTree<T>* Result
-		RoundForWhere(Fun, GetRoot(), Result);;
+	HeapBinaryTree<T>* Result = RoundForWhere(Fun, GetRoot(), Result);
 	delete Result;
 }
 
@@ -367,14 +369,14 @@ template<typename T>
 bool HeapBinaryTree<T>::SearchTree(HeapBinaryTree<T>* tree1, HeapBinaryTree<T>* tree2) // переделеать
 {
 	bool result = false;
-	result = RoundForSearchTree(tree1->GetRoot(), tree2->GetRoot(), result);
+	result = this->RoundForSearchTree(tree1->GetRoot(), tree2->GetRoot(), result);
 	return result;
 }
 
 template<typename T>
 HeapBinaryTree<T>* HeapBinaryTree<T>::Cut(HeapBinaryTree<T>* tree, T* cutElem)
 {
-	HeapBinaryTree<T>* result = new HeapBinaryTree<T>();
+	HeapBinaryTree<T>* result = new HeapBinaryTree<T>(ErrorValue);
 	bool find = false;
 	result = RoundForCut(tree->GetRoot(), find, cutElem, result);
 	return result;
@@ -493,7 +495,8 @@ void HeapBinaryTree<T>::heapifyAllInner(Node* node)
 }
 
 template<typename T>
-HeapBinaryTree<T>::HeapBinaryTree()
+HeapBinaryTree<T>::HeapBinaryTree(T errorValue):
+	ErrorValue(errorValue)
 {
 	Root = nullptr;
 }
@@ -515,7 +518,7 @@ HeapBinaryTree<T>* HeapBinaryTree<T>::RoundForMap(T* (&Fun)(HeapBinaryTree<T>*),
 	if (Original != nullptr) {
 		Result->Add(Fun(Original->GetRoot));
 		HeapBinaryTree<T>* buf = new HeapBinaryTree<T>;
-		buf->Add()
+		buf->Add();
 			Result = RoundForMap(Fun, (Original->GetRoot), OriginalNode->Left, Result);
 		Result = RoundForMap(Fun, (Original->GetRoot), OriginalNode->Right, Result);
 	}
@@ -582,7 +585,7 @@ HeapBinaryTree<T>* HeapBinaryTree<T>::Map(HeapBinaryTree<T>* (&Fun)(HeapBinaryTr
 template<typename T>
 T HeapBinaryTree<T>::getMax()
 {
-	T result;
+	T result = ErrorValue;
 	if (GetRoot() != nullptr)
 	{
 		result = *(GetRoot()->Value);
@@ -621,23 +624,23 @@ void HeapBinaryTree<T>::AddTreeWithNode(Node* node)
 	}
 	if (node->Left != nullptr && node->Right != nullptr)
 	{
-		AddTreeWithNode(node->Left);
-		AddTreeWithNode(node->Right);
+		this->AddTreeWithNode(node->Left);
+		this->AddTreeWithNode(node->Right);
 	}
 	else if (node->Left != nullptr)
 	{
-		AddTreeWithNode(node->Left);
+		this->AddTreeWithNode(node->Left);
 	}
 	else if (node->Right != nullptr)
 	{
-		AddTreeWithNode(node->Right);
+		this->AddTreeWithNode(node->Right);
 	}
 }
 
 template<typename T>
 HeapBinaryTree<T>* HeapBinaryTree<T>::GetMergedTrees(HeapBinaryTree<T>* tree1, HeapBinaryTree<T>* tree2)
 {
-	HeapBinaryTree<T>* r = new HeapBinaryTree<T>;
+	HeapBinaryTree<T>* r = new HeapBinaryTree<T>(ErrorValue);
 	if (tree1->GetRoot() != nullptr) r->AddTreeWithNode(tree1->GetRoot());
 	if (tree2->GetRoot() != nullptr) r->AddTreeWithNode(tree2->GetRoot());
 	return r;
