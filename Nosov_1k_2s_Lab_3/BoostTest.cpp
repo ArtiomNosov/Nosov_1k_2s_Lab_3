@@ -22,6 +22,7 @@ using namespace std;
 #include "HeapBinaryTree.h"
 #include "ThreadedBinaryTree.h"
 #include "PerfectlyBalancedTree.h"
+#include "IRunnerBinaryTree.h"
 
  // Тестирование BinaryTree.h - class BinaryTree
 
@@ -572,8 +573,54 @@ BOOST_AUTO_TEST_CASE(HeapBinaryTreeGetMergedTrees)
 }
 
 // Тесты для IRunnerBinaryTree
-// Build
-//----------------
+ // Build1
+BOOST_AUTO_TEST_CASE(IRunnerBinaryTreeBuild1)
+{
+	auto* irbt = new IRunnerBinaryTree<int>();
+	BOOST_CHECK(irbt != nullptr);
+	irbt->~IRunnerBinaryTree();
+}
+// Build2
+BOOST_AUTO_TEST_CASE(IRunnerBinaryTreeBuild2)
+{
+	auto* irbt = new IRunnerBinaryTree<int>(AInt9, SAI9);
+	BOOST_CHECK(irbt != nullptr);
+	BOOST_CHECK(irbt->GetTreeHeight() != 0);
+	irbt->~IRunnerBinaryTree();
+}
+// DeleteValue
+BOOST_AUTO_TEST_CASE(IRunnerBinaryTreeDeleteValue)
+{
+	auto* irbt = new IRunnerBinaryTree<int>(AInt9, SAI9);
+	irbt->DeleteValue(AInt9[SAI9 - 1]);
+	BOOST_CHECK(irbt->DeleteAllValues(AInt9[SAI9 - 1]) == 0);
+	irbt->~IRunnerBinaryTree();
+}
+ // DeleteAllValues
+BOOST_AUTO_TEST_CASE(IRunnerBinaryTreeDeleteAllValues)
+{
+	auto* irbt = new IRunnerBinaryTree<int>(AInt9, SAI9);
+	irbt->InsertValue(AInt9[0]);
+	BOOST_CHECK(irbt->DeleteAllValues(AInt9[0]) == 2);
+	irbt->~IRunnerBinaryTree();
+}
+ // InsertValue
+BOOST_AUTO_TEST_CASE(IRunnerBinaryTreeInsertValue)
+{
+	auto* irbt = new IRunnerBinaryTree<int>(AInt9, SAI9);
+	irbt->InsertValue(AInt9[0]);
+	irbt->InsertValue(AInt9[0]);
+	BOOST_CHECK(irbt->DeleteAllValues(AInt9[0]) == 3);
+	irbt->~IRunnerBinaryTree();
+}
+ // GetTreeHeight
+BOOST_AUTO_TEST_CASE(IRunnerBinaryTreeGetTreeHeight)
+{
+	auto* irbt = new IRunnerBinaryTree<int>(AInt9, SAI9);
+	BOOST_CHECK(irbt->GetTreeHeight() == 9);
+	// BOOST_CHECK(irbt->DeleteAllValues(AInt9[0]) == 3);
+	irbt->~IRunnerBinaryTree();
+}
 
 // Тесты для ThreadedBinaryTree
 // Build

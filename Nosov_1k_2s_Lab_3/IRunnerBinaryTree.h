@@ -29,7 +29,7 @@ public:
     IRunnerBinaryTree(T* a, long l)
         : Root(nullptr)
     {
-        for (long i; i < l; i++) InsertValue(a[i]);
+        for (long i = 0; i < l; i++) InsertValue(a[i]);
     }
 
     ~IRunnerBinaryTree() {
@@ -61,12 +61,12 @@ private:
     {
         TNode<T>** cur = &(Root);
         while (*cur) {
-            TNode<T>& node = **cur;
-            if (x < node.Key) {
-                cur = &node.Left;
+            TNode<T>* node = *cur;
+            if (x < node->Value) {
+                cur = &(node->Left);
             }
-            else if (x > node.Key) {
-                cur = &node.Right;
+            else if (x > node->Value) {
+                cur = &(node->Right);
             }
             else {
                 return *cur;
@@ -77,7 +77,7 @@ private:
 
     void AddTree(TNode<T>* addNode)
     {
-        Insert(addNode->Value);
+        InsertValue(addNode->Value);
         if (addNode->Left != nullptr)
             AddTree(addNode->Left);
         if (addNode->Right != nullptr)
@@ -87,38 +87,42 @@ private:
     int calcHeight(TNode<T>* node) {
         int hl, hr;
         if (node != nullptr) {
-            hl = calcHeight(node.left);
-            hr = calcHeight(node.right);
-            return node.Height = ((hl > hr) ? hl : hr) + 1;
+            hl = calcHeight(node->Left);
+            hr = calcHeight(node->Right);
+            node->Height = ((hl > hr) ? hl : hr) + 1;
+            return node->Height;
         }
         else {
-            return -1;
+            return 0;
         }
     }
 
         // Обходы дерева TLR (КЛП), LTR (ЛКП), LRT(ЛПК)
      // Обход TLR
-    void TLR(auto (*p)(TNode<T>*), TNode<T>* node)
+    template<typename Ret>
+    void TLR(Ret(*p)(TNode<T>*), TNode<T>* node)
     {
         if (node == nullptr) return;
         p(node);
-        TLR(node->Left);
-        TLR(node->Right);
+        TLR(p, node->Left);
+        TLR(p, node->Right);
     }
      // Обход LTR
-    void LTR(auto (*p)(TNode<T>*), TNode<T>* node)
+    template<typename Ret>
+    void LTR(Ret (*p)(TNode<T>*), TNode<T>* node)
     {
         if (node == nullptr) return;
-        LTR(node->Left);
+        LTR(p, node->Left);
         p(node);
-        LTR(node->Right);
+        LTR(p, node->Right);
     }
      // Обход LRT
-    void LRT(auto (*p)(TNode<T>*), TNode<T>* node)
+    template<typename Ret>
+    void LRT(Ret (*p)(TNode<T>*), TNode<T>* node)
     {
         if (node == nullptr) return;
-        LRT(node->Left);
-        LRT(node->Right);
+        LRT(p, node->Left);
+        LRT(p, node->Right);
         p(node);
     }
     TNode<T>* Root;
@@ -132,10 +136,10 @@ inline void IRunnerBinaryTree<T>::InsertValue(T x)
     while (*cur) {
         TNode<T>& node = **cur;
         prev = *cur;
-        if (x < node.Key) {
+        if (x < node.Value) {
             cur = &node.Left;
         }
-        else if (x > node.Key) {
+        else if (x > node.Value) {
             cur = &node.Right;
         }
         else {
@@ -146,6 +150,7 @@ inline void IRunnerBinaryTree<T>::InsertValue(T x)
     (*cur)->Parent = prev;
 };
 
+// TODO: Рефакторинг.
 template<typename T>
 bool IRunnerBinaryTree<T>::DeleteValue(T x)
 {
@@ -154,34 +159,113 @@ bool IRunnerBinaryTree<T>::DeleteValue(T x)
     TNode<T>* nodeLeft = nodeDel->Left;
     TNode<T>* nodeRight = nodeDel->Right;
     TNode<T>* nodeParent = nodeDel->Parent;
-    TNode<T>* additionalBranch = nullptr;
-    if (nodeParent != nullptr) additionalBranch = (nodeParent->Left == nodeDel) ? nodeParent->Left : nodeParent->Right;
-    delete nodeDel;
-    if (nodeLeft != nullptr && nodeRight != nullptr)
+    TNode<T>** additionalBranch = nullptr;
+    auto tmp = Root;
+    if (nodeParent != nullptr) additionalBranch = ((nodeParent->Left == nodeDel) ? &(nodeParent->Left) : &(nodeParent->Right));
+    if (nodeParent == nullptr)
+    {
+        if (nodeLeft == nullptr && nodeRight == nullptr)
+        {
+            delete Root;
+            Root = nullptr;
+        }
+        else if (nodeLeft != nullptr && nodeRight != nullptr)
+        {
+            Root = nodeLeft;
+            Root->Parent = nullptr;
+            delete tmp;
+            tmp = nullptr;
+            AddTree(nodeRight);
+        }
+        else if (nodeLeft != nullptr)
+        {
+            Root = nodeLeft;
+            Root->Parent = nullptr;
+            delete tmp;
+            tmp = nullptr;
+        }
+        else if (nodeRight != nullptr)
+        {
+            Root = nodeRight;
+            Root->Parent = nullptr;
+            delete tmp;
+            tmp = nullptr;
+        }
+    }
+    else
+    {
+        if (nodeLeft == nullptr && nodeRight == nullptr)
+        {
+            delete nodeDel;
+            nodeDel = nullptr;
+            *additionalBranch = nullptr;
+        }
+        else if (nodeLeft != nullptr && nodeRight != nullptr)
+        {
+            *additionalBranch = nodeLeft;
+            (*additionalBranch)->Parent = nodeParent;
+            delete nodeDel;
+            nodeDel = nullptr;
+            AddTree(nodeRight);
+        }
+        else if (nodeLeft != nullptr)
+        {
+            *additionalBranch = nodeLeft;
+            (*additionalBranch)->Parent = nodeParent;
+            delete nodeDel;
+            nodeDel = nullptr;
+        }
+        else if (nodeRight != nullptr)
+        {
+            *additionalBranch = nodeRight;
+            (*additionalBranch)->Parent = nodeParent;
+            delete nodeDel;
+            nodeDel = nullptr;
+        }
+    }
+    /*if (nodeLeft != nullptr && nodeRight != nullptr)
     {
         if (nodeParent == nullptr)
         {
+            tmp = Root;
             Root = nodeLeft;
+            if (Root != nullptr) Root->Parent = nullptr;
+            delete tmp;
         }
         else
         {
-            additionalBranch = nodeLeft;
+            tmp = *additionalBranch;
+            *additionalBranch = nodeLeft;
+            if (*additionalBranch != nullptr) (*additionalBranch)->Parent = nodeParent;
+            delete tmp;
         }
         AddTree(nodeRight);
-
     }
     else if (nodeParent == nullptr)
     {
-        Root = (nodeLeft != nullptr) ? nodeLeft : nodeRight;
+        tmp = Root;
+        Root = ((nodeLeft != nullptr) ? nodeLeft : nodeRight);
+        if (Root != nullptr) Root->Parent = nullptr;
+        if (tmp != nullptr) delete tmp;
     }
     else if (nodeLeft != nullptr)
     {
-        additionalBranch = (nodeLeft != nullptr) ? nodeLeft : nodeRight;
+        tmp = *additionalBranch;
+        *additionalBranch = (nodeLeft != nullptr) ? nodeLeft : nodeRight;
+        if (*additionalBranch != nullptr) (*additionalBranch)->Parent = nodeParent;
+        delete tmp;
     }
     else if (nodeRight != nullptr)
     {
-        additionalBranch = (nodeLeft != nullptr) ? nodeLeft : nodeRight;
+        tmp = *additionalBranch;
+        *additionalBranch = (nodeLeft != nullptr) ? nodeLeft : nodeRight;
+        if (*additionalBranch != nullptr) (*additionalBranch)->Parent = nodeParent;
+        delete tmp;
     }
+    else if (nodeLeft == nullptr && nodeRight == nullptr)
+    {
+        delete *additionalBranch;
+    }*/
     return true;
 };
 
@@ -190,8 +274,9 @@ template<typename T>
 int IRunnerBinaryTree<T>::DeleteAllValues(T x)
 {
     int numberDeleteValues = 0;
-    while (DeleteValue(x))
-        numberDeleteValues++;
+    while (DeleteValue(x)) {
+        numberDeleteValues = numberDeleteValues + 1;
+    }
     return numberDeleteValues;
 };
 
